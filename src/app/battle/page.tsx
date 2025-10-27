@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { monsters } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import { Swords } from 'lucide-react';
+import Link from 'next/link';
 
 export default function BattlePage() {
   return (
@@ -32,9 +33,11 @@ export default function BattlePage() {
               </div>
             </CardContent>
             <CardFooter>
-                <Button className="w-full">
-                    <Swords className="mr-2 h-4 w-4" />
-                    Battle
+                <Button className="w-full" asChild>
+                    <Link href={`/battle/${monster.id}`}>
+                        <Swords className="mr-2 h-4 w-4" />
+                        Battle
+                    </Link>
                 </Button>
             </CardFooter>
           </Card>
