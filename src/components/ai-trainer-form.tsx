@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -45,6 +45,19 @@ const initialState = {
   error: '',
 };
 
+function SubmitButton() {
+    const { pending } = useFormStatus();
+    return (
+        <Button type="submit" disabled={pending}>
+            {pending && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Generate Plan
+        </Button>
+    )
+}
+
+
 export default function AiTrainerForm() {
   const [state, formAction] = useFormState(
     generateWorkoutPlanAction,
@@ -61,14 +74,13 @@ export default function AiTrainerForm() {
     },
   });
 
-  const { formState } = form;
+  const { formState, formState: { isSubmitting } } = form;
 
   return (
     <div className="space-y-8">
       <Form {...form}>
         <form
           action={formAction}
-          onSubmit={form.handleSubmit(formAction)}
           className="space-y-6"
         >
           <FormField
@@ -100,6 +112,7 @@ export default function AiTrainerForm() {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  name={field.name}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -157,16 +170,11 @@ export default function AiTrainerForm() {
             )}
           />
 
-          <Button type="submit" disabled={formState.isSubmitting}>
-            {formState.isSubmitting && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Generate Plan
-          </Button>
+          <SubmitButton />
         </form>
       </Form>
 
-      {formState.isSubmitting && (
+      {isSubmitting && (
         <Card>
           <CardHeader>
             <CardTitle>Generating your plan...</CardTitle>
@@ -192,7 +200,7 @@ export default function AiTrainerForm() {
         </Card>
       )}
 
-      {state?.workoutPlan && !formState.isSubmitting && (
+      {state?.workoutPlan && !isSubmitting && (
         <Card className="bg-primary/5">
           <CardHeader>
             <CardTitle>Your Personalized Workout Plan</CardTitle>
