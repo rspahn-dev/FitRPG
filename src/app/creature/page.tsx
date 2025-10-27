@@ -1,17 +1,12 @@
 
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { userProfile, userStats } from '@/lib/data';
+import { userProfile, userStats, allSkills } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Shield, Crown, Dumbbell, Wind, Heart } from 'lucide-react';
 
 export default function CreaturePage() {
-  const allSkills = [
-    { name: 'Quick Attack', description: 'A speedy physical attack.', unlockLevel: 1 },
-    { name: 'Thunder Shock', description: 'An electric shock that may paralyze the foe.', unlockLevel: 1 },
-    { name: 'Iron Defense', description: 'Hardens the body to raise Defense.', unlockLevel: 10 },
-  ];
   
   const creatureSkills = allSkills.filter(skill => userStats.level >= skill.unlockLevel);
 

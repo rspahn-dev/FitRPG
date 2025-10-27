@@ -57,6 +57,20 @@ export const userProfile = {
   }
 };
 
+export const allSkills = [
+    { name: 'Quick Attack', description: 'A speedy physical attack.', unlockLevel: 1 },
+    { name: 'Thunder Shock', description: 'An electric shock that may paralyze the foe.', unlockLevel: 1 },
+    { name: 'Iron Defense', description: 'Hardens the body to raise Defense.', unlockLevel: 10 },
+    { name: 'Aqua Jet', description: 'A quick charge of water.', unlockLevel: 15 },
+    { name: 'Flame Burst', description: 'A fiery explosion that scorches the target.', unlockLevel: 20 },
+    { name: 'Giga Drain', description: 'A powerful draining attack.', unlockLevel: 25 },
+    { name: 'Dragon Claw', description: 'A vicious slash with sharp claws.', unlockLevel: 30 },
+    { name: 'Psychic', description: 'A powerful psychic attack that may lower DEF.', unlockLevel: 35 },
+    { name: 'Hyper Beam', description: 'An extremely powerful attack, but requires a recharge turn.', unlockLevel: 40 },
+    { name: 'Solar Flare', description: 'A blinding flash of light that damages and may stun.', unlockLevel: 45 },
+    { name: 'Meteor Mash', description: 'A powerful punch as fast and hard as a meteor.', unlockLevel: 50 },
+];
+
 export const personalRecords = [
     { exerciseName: 'Bench Press', value: '100 kg', date: '2023-10-26' },
     { exerciseName: 'Squat', value: '140 kg', date: '2023-10-24' },
@@ -220,8 +234,10 @@ export const lootTable = {
     'loot1': { id: 'loot1', name: 'Health Potion', description: 'Restores 20 HP.', icon: 'Heart' },
     'loot2': { id: 'loot2', name: 'Strength Elixir', description: 'Temporarily boosts STR by 2.', icon: 'Dumbbell' },
     'loot3': { id: 'loot3', name: 'Agility Draught', description: 'Temporarily boosts AGI by 2.', icon: 'Wind' },
-    'loot4': { id: 'loot4', name: 'XP Scroll', description: 'Grants 100 XP.', icon: 'Star' }
-}
+    'loot4': { id: 'loot4', name: 'XP Scroll', description: 'Grants 100 XP.', icon: 'Star' },
+    'loot5': { id: 'loot5', name: 'Dragon Scale', description: 'A rare crafting material.', icon: 'Shield' },
+    'loot6': { id: 'loot6', name: 'Phoenix Down', description: 'Revives a fainted creature.', icon: 'Feather' },
+};
 
 export const monsters = [
     {
@@ -259,6 +275,60 @@ export const monsters = [
         image: 'https://picsum.photos/seed/monster3/128/128',
         loot: lootTable.loot4,
         unlockLevel: 7,
+    },
+    {
+        id: 'm4',
+        name: 'Golem',
+        species: 'Rock Titan',
+        level: 12,
+        image: 'https://picsum.photos/seed/monster4/128/128',
+        loot: lootTable.loot3,
+        unlockLevel: 10,
+    },
+    {
+        id: 'm5',
+        name: 'Hydra',
+        species: 'Multi-headed Serpent',
+        level: 18,
+        image: 'https://picsum.photos/seed/monster5/128/128',
+        loot: lootTable.loot5,
+        unlockLevel: 15,
+    },
+    {
+        id: 'm6',
+        name: 'Griffin',
+        species: 'Mythical Beast',
+        level: 25,
+        image: 'https://picsum.photos/seed/monster6/128/128',
+        loot: lootTable.loot5,
+        unlockLevel: 20,
+    },
+    {
+        id: 'm7',
+        name: 'Chimera',
+        species: 'Aberration',
+        level: 32,
+        image: 'https://picsum.photos/seed/monster7/128/128',
+        loot: lootTable.loot6,
+        unlockLevel: 30,
+    },
+    {
+        id: 'm8',
+        name: 'Behemoth',
+        species: 'Legendary Titan',
+        level: 40,
+        image: 'https://picsum.photos/seed/monster8/128/128',
+        loot: lootTable.loot6,
+        unlockLevel: 35,
+    },
+    {
+        id: 'm9',
+        name: 'Tarrasque',
+        species: 'World Ender',
+        level: 50,
+        image: 'https://picsum.photos/seed/monster9/128/128',
+        loot: lootTable.loot6,
+        unlockLevel: 45,
     },
 ]
 

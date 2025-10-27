@@ -26,20 +26,34 @@ This section details the various game elements available in FitRPG.
 
 ### Creature Skills
 
-| Skill Name      | Description                                  | Unlock Level |
-| --------------- | -------------------------------------------- | ------------ |
-| Quick Attack    | A speedy physical attack.                    | 1            |
-| Thunder Shock   | An electric shock that may paralyze the foe. | 1            |
-| Iron Defense    | Hardens the body to raise Defense.           | 10           |
+| Skill Name | Description | Unlock Level |
+| :--- | :--- | :--- |
+| Quick Attack | A speedy physical attack. | 1 |
+| Thunder Shock | An electric shock that may paralyze the foe. | 1 |
+| Iron Defense | Hardens the body to raise Defense. | 10 |
+| Aqua Jet | A quick charge of water. | 15 |
+| Flame Burst | A fiery explosion that scorches the target. | 20 |
+| Giga Drain | A powerful draining attack. | 25 |
+| Dragon Claw | A vicious slash with sharp claws. | 30 |
+| Psychic | A powerful psychic attack that may lower DEF. | 35 |
+| Hyper Beam | An extremely powerful attack, but requires a recharge turn. | 40 |
+| Solar Flare | A blinding flash of light that damages and may stun. | 45 |
+| Meteor Mash | A powerful punch as fast and hard as a meteor. | 50 |
 
 ### Monsters
 
-| Name       | Species          | Level | Unlock Level |
-| ---------- | ---------------- | ----- | ------------ |
-| Slime      | Gelatinous Cube  | 1     | 1            |
-| Grumble    | Cave Goblin      | 3     | 1            |
-| AI Rival   | Cyborg Athlete   | 5     | 5            |
-| Wyvern     | Young Dragon     | 7     | 7            |
+| Name | Species | Level | Unlock Level |
+| :--- | :--- | :--- | :--- |
+| Slime | Gelatinous Cube | 1 | 1 |
+| Grumble | Cave Goblin | 3 | 1 |
+| AI Rival | Cyborg Athlete | 5 | 5 |
+| Wyvern | Young Dragon | 7 | 7 |
+| Golem | Rock Titan | 12 | 10 |
+| Hydra | Multi-headed Serpent | 18 | 15 |
+| Griffin | Mythical Beast | 25 | 20 |
+| Chimera | Aberration | 32 | 30 |
+| Behemoth | Legendary Titan | 40 | 35 |
+| Tarrasque | World Ender | 50 | 45 |
 
 ### Community Challenges
 
