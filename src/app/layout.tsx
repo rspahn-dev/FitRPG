@@ -4,8 +4,8 @@ import { AppLayout } from '@/components/layout/app-layout';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Workout Sage',
-  description: 'Your AI-powered fitness companion',
+  title: 'FitRPG',
+  description: 'Gamify your fitness journey',
 };
 
 export default function RootLayout({

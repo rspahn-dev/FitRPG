@@ -1,9 +1,14 @@
-// Mock data for Workout Sage UI
+// Mock data for FitRPG UI
 
 export const userProfile = {
   displayName: 'Alex',
   fitnessGoals: 'Build muscle and improve cardiovascular health.',
   fitnessLevel: 'intermediate',
+  creature: {
+    name: 'Sparky',
+    species: 'Electric Squirrel',
+    image: 'https://picsum.photos/seed/creature1/128/128',
+  }
 };
 
 export const userStats = {
@@ -13,9 +18,6 @@ export const userStats = {
   str: 15,
   agi: 12,
   sta: 18,
-  intl: 10,
-  energyToday: 120,
-  energyCap: 250,
   streakDays: 5,
   workoutsThisWeek: 4,
   activeMinutesThisWeek: 180,

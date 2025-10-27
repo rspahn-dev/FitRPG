@@ -14,9 +14,11 @@ import {
 import { SidebarNav } from '@/components/layout/sidebar-nav';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Header } from './header';
+import { Dumbbell } from 'lucide-react';
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: 'LayoutDashboard' },
+  { href: '/creature', label: 'Creature', icon: 'Cat' },
   { href: '/log-workout', label: 'Log Workout', icon: 'PenSquare' },
   { href: '/progress', label: 'Progress', icon: 'LineChart' },
   { href: '/ai-trainer', label: 'AI Trainer', icon: 'Bot' },
@@ -33,19 +35,8 @@ export function AppLayout({ children }: { children: ReactNode }) {
         <SidebarRail />
         <SidebarHeader>
           <div className="flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-8 w-8 text-primary"
-            >
-              <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm-1 15.59V14H9v-2h2v-1.59c0-2.29 1.4-3.5 3.5-3.5 0.99 0 1.88.07 2.13.1v1.83h-1.09c-1.11 0-1.32.53-1.32 1.29V12h2.22l-.28 2h-1.94v3.59h-2z" />
-            </svg>
-            <span className="text-lg font-semibold">Workout Sage</span>
+            <Dumbbell className="h-8 w-8 text-primary" />
+            <span className="text-lg font-semibold">FitRPG</span>
           </div>
         </SidebarHeader>
         <SidebarContent>
