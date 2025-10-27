@@ -44,11 +44,10 @@ export function AppLayout({ children }: { children: ReactNode }) {
             <span className="text-lg font-semibold">FitRPG</span>
           </div>
         </SidebarHeader>
-        <SidebarContent className="flex-1">
+        <SidebarContent>
           <SidebarNav items={navItems} pathname={pathname} />
         </SidebarContent>
-        <SidebarContent>
-          <SidebarSeparator />
+        <SidebarFooter className="gap-4">
            <SidebarMenu>
             <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === '/creature'}>
@@ -67,8 +66,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
-        </SidebarContent>
-        <SidebarFooter>
+          <SidebarSeparator />
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8">
               <AvatarImage src="https://picsum.photos/seed/user/40/40" alt="User" />
