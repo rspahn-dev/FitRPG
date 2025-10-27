@@ -1,27 +1,38 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { userProfile } from '@/lib/data';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { ProfileForm } from '@/components/profile-form';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function CreaturePage() {
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-8">
+    <div className="mx-auto w-full max-w-3xl space-y-8">
       <div className="flex flex-col items-center gap-4">
-        <img 
-            src={userProfile.creature.image} 
-            alt={userProfile.creature.name}
-            className="h-48 w-48 rounded-full border-4 border-primary object-cover"
-        />
+        <Avatar className="h-48 w-48 border-4 border-primary">
+            <AvatarImage src={userProfile.creature.image} alt={userProfile.creature.name} />
+            <AvatarFallback>{userProfile.creature.name.charAt(0)}</AvatarFallback>
+        </Avatar>
         <div className="text-center">
             <h1 className="text-4xl font-bold">{userProfile.creature.name}</h1>
             <p className="text-xl text-muted-foreground">{userProfile.creature.species}</p>
         </div>
-        <Button>Customize Creature</Button>
       </div>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>My Profile</CardTitle>
+          <CardDescription>
+            Update your personal details and fitness preferences.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ProfileForm />
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Skills</CardTitle>
+          <CardTitle>Creature Skills</CardTitle>
           <CardDescription>
             Your creature's abilities for use in battle.
           </CardDescription>

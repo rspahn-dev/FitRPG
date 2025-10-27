@@ -26,7 +26,6 @@ const navItems = [
   { href: '/ai-trainer', label: 'AI Trainer', icon: 'Bot' },
   { href: '/challenges', label: 'Challenges', icon: 'Trophy' },
   { href: '/social', label: 'Social', icon: 'Users' },
-  { href: '/profile', label: 'Profile', icon: 'User' },
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
