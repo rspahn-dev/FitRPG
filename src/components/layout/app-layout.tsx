@@ -34,6 +34,11 @@ const navItems = [
 export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
+  // Hide layout for welcome page
+  if (pathname === '/welcome') {
+    return <main className="flex-1 overflow-auto p-4 md:p-6">{children}</main>;
+  }
+
   return (
     <SidebarProvider>
       <Sidebar>
