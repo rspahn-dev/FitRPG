@@ -1,6 +1,31 @@
 
 // Mock data for FitRPG
 
+// Base stats that will scale with level
+const baseStats = {
+  str: 10,
+  agi: 8,
+  sta: 12,
+};
+
+const calculateLevelStats = (level: number) => {
+    return {
+        str: baseStats.str + (level - 1) * 2,
+        agi: baseStats.agi + (level - 1) * 1,
+        sta: baseStats.sta + (level - 1) * 3,
+    }
+}
+
+export const userStats = {
+  level: 5,
+  xp: 450,
+  xpToNext: 1000,
+  ...calculateLevelStats(5),
+  streakDays: 5,
+  workoutsThisWeek: 4,
+  activeMinutesThisWeek: 180,
+};
+
 export const userProfile = {
   displayName: 'Alex',
   fitnessGoals: 'Build muscle and improve cardiovascular health.',
@@ -21,18 +46,6 @@ export const userProfile = {
   bag: [
     { id: 'loot1', name: 'Health Potion', description: 'Restores 20 HP.', icon: 'Heart' }
   ]
-};
-
-export const userStats = {
-  level: 5,
-  xp: 450,
-  xpToNext: 1000,
-  str: 15,
-  agi: 12,
-  sta: 18,
-  streakDays: 5,
-  workoutsThisWeek: 4,
-  activeMinutesThisWeek: 180,
 };
 
 export const personalRecords = [

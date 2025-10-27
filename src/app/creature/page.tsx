@@ -1,15 +1,10 @@
 
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { userProfile, userStats } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Shield, Crown, HelpCircle } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Shield, Crown, Dumbbell, Wind, Heart } from 'lucide-react';
 
 export default function CreaturePage() {
   const allSkills = [
@@ -19,6 +14,12 @@ export default function CreaturePage() {
   ];
   
   const creatureSkills = allSkills.filter(skill => userStats.level >= skill.unlockLevel);
+
+  const statItems = [
+      { name: 'Strength', value: userStats.str, icon: Dumbbell, color: 'text-red-500' },
+      { name: 'Agility', value: userStats.agi, icon: Wind, color: 'text-green-500' },
+      { name: 'Stamina', value: userStats.sta, icon: Heart, color: 'text-blue-500' },
+  ];
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-8">
@@ -42,18 +43,13 @@ export default function CreaturePage() {
         </CardHeader>
         <CardContent>
             <div className="grid grid-cols-3 gap-4 text-center">
-                <div>
-                    <p className="font-bold text-4xl">{userStats.str}</p>
-                    <p className="text-sm text-muted-foreground">Strength</p>
-                </div>
-                <div>
-                    <p className="font-bold text-4xl">{userStats.agi}</p>
-                    <p className="text-sm text-muted-foreground">Agility</p>
-                </div>
-                <div>
-                    <p className="font-bold text-4xl">{userStats.sta}</p>
-                    <p className="text-sm text-muted-foreground">Stamina</p>
-                </div>
+                {statItems.map(stat => (
+                    <div key={stat.name} className="flex flex-col items-center gap-2">
+                        <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                        <p className="font-bold text-4xl">{stat.value}</p>
+                        <p className="text-sm text-muted-foreground">{stat.name}</p>
+                    </div>
+                ))}
             </div>
         </CardContent>
       </Card>
@@ -95,29 +91,14 @@ export default function CreaturePage() {
         <CardContent>
           {creatureSkills.length > 0 ? (
             <div className="space-y-4">
-                <TooltipProvider>
-                  {allSkills.map((skill) => (
-                      <div key={skill.name} className="flex items-center justify-between gap-4">
-                          <div className="flex items-center gap-2">
-                             <Badge variant={userStats.level >= skill.unlockLevel ? "secondary" : "outline"} className="text-sm w-32 justify-center">{skill.name}</Badge>
-                             <p className="text-muted-foreground">{skill.description}</p>
-                          </div>
-                          {userStats.level < skill.unlockLevel && (
-                             <Tooltip>
-                               <TooltipTrigger>
-                                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                   <HelpCircle className="h-4 w-4" />
-                                   <span>Lvl {skill.unlockLevel}</span>
-                                 </div>
-                               </TooltipTrigger>
-                               <TooltipContent>
-                                 <p>Unlocks at Level {skill.unlockLevel}</p>
-                               </TooltipContent>
-                             </Tooltip>
-                          )}
+              {creatureSkills.map((skill) => (
+                  <div key={skill.name} className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-2">
+                         <Badge variant={"secondary"} className="text-sm w-32 justify-center">{skill.name}</Badge>
+                         <p className="text-muted-foreground">{skill.description}</p>
                       </div>
-                  ))}
-                </TooltipProvider>
+                  </div>
+              ))}
             </div>
           ) : (
             <p>Your creature has not learned any skills yet. Keep training!</p>
