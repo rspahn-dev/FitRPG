@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProfileForm } from '@/components/profile-form';
+import { SettingsForm } from '@/components/settings-form';
 
 export default function SettingsPage() {
   return (
@@ -8,7 +9,7 @@ export default function SettingsPage() {
        <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
         <p className="text-muted-foreground">
-          Manage your account and profile settings.
+          Manage your account, profile, and app settings.
         </p>
       </div>
       <Card>
@@ -20,6 +21,17 @@ export default function SettingsPage() {
         </CardHeader>
         <CardContent>
           <ProfileForm />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Preferences</CardTitle>
+          <CardDescription>
+            Customize your app experience.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SettingsForm />
         </CardContent>
       </Card>
     </div>

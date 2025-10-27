@@ -45,7 +45,12 @@ export const userProfile = {
   },
   bag: [
     { id: 'loot1', name: 'Health Potion', description: 'Restores 20 HP.', icon: 'Heart' }
-  ]
+  ],
+  settings: {
+    units: 'kg',
+    theme: 'light',
+    notifications: true,
+  }
 };
 
 export const personalRecords = [
@@ -61,8 +66,8 @@ export const recentWorkouts = [
     type: 'strength',
     ts: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
     exercises: [
-        { type: 'strength', name: 'Squat', sets: 3, reps: 8, weightKg: 120 },
-        { type: 'strength', name: 'Bench Press', sets: 3, reps: 8, weightKg: 90 },
+        { type: 'strength', name: 'Squat', sets: [{ reps: 8, weightKg: 120 }, { reps: 8, weightKg: 120 }, { reps: 8, weightKg: 120 }] },
+        { type: 'strength', name: 'Bench Press', sets: [{ reps: 8, weightKg: 90 }, { reps: 8, weightKg: 90 }, { reps: 8, weightKg: 90 }] },
     ]
   },
   {
@@ -80,20 +85,10 @@ export const recentWorkouts = [
     type: 'strength',
     ts: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
     exercises: [
-        { type: 'strength', name: 'Deadlift', sets: 1, reps: 5, weightKg: 150 },
-        { type: 'strength', name: 'Leg Press', sets: 4, reps: 10, weightKg: 200 },
+        { type: 'strength', name: 'Deadlift', sets: [{ reps: 5, weightKg: 150 }] },
+        { type: 'strength', name: 'Leg Press', sets: [{ reps: 10, weightKg: 200 }, { reps: 10, weightKg: 200 }, { reps: 10, weightKg: 200 }, { reps: 10, weightKg: 200 }] },
     ]
   },
-  {
-    id: 'w4',
-    name: 'HIIT Session',
-    type: 'cardio',
-    ts: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
-    exercises: [
-        { type: 'cardio', name: 'Burpees', minutes: 5 },
-        { type: 'cardio', name: 'Jump Rope', minutes: 10 },
-    ]
-  }
 ];
 
 export const workoutTemplates = [
@@ -101,9 +96,9 @@ export const workoutTemplates = [
         id: 'template1',
         name: 'Upper Body Focus',
         exercises: [
-            { type: 'strength', name: 'Bench Press', sets: 3, reps: 8, weightKg: 90 },
-            { type: 'strength', name: 'Overhead Press', sets: 3, reps: 10, weightKg: 50 },
-            { type: 'strength', name: 'Pull Ups', sets: 3, reps: 8 },
+            { type: 'strength', name: 'Bench Press', sets: [{ reps: 8, weightKg: 90 }, { reps: 8, weightKg: 90 }] },
+            { type: 'strength', name: 'Overhead Press', sets: [{ reps: 10, weightKg: 50 }, { reps: 10, weightKg: 50 }] },
+            { type: 'strength', name: 'Pull Ups', sets: [{ reps: 8, weightKg: 0 }, { reps: 8, weightKg: 0 }] },
         ]
     },
     {

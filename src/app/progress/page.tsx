@@ -50,8 +50,12 @@ export default function ProgressPage() {
                             <span>{exercise.name}</span>
                           </div>
                           <div className="pl-6 text-sm text-muted-foreground">
-                            {exercise.type === 'strength' && (
-                              <span>{exercise.sets} sets x {exercise.reps} reps @ {exercise.weightKg}kg</span>
+                            {exercise.type === 'strength' && exercise.sets && (
+                              <ul className="list-disc pl-5">
+                                {exercise.sets.map((set, setIndex) => (
+                                  <li key={setIndex}>{set.reps} reps @ {set.weightKg}kg</li>
+                                ))}
+                              </ul>
                             )}
                             {exercise.type === 'cardio' && (
                               <span>{exercise.minutes} minutes</span>

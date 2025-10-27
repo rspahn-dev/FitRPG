@@ -27,15 +27,19 @@ import { Dumbbell, HeartPulse, Star, Trash2, PlusCircle, Save, Bed } from 'lucid
 import { Separator } from './ui/separator';
 import { Card, CardContent } from './ui/card';
 import { workoutTemplates } from '@/lib/data';
+import { cn } from '@/lib/utils';
+
+const strengthSetSchema = z.object({
+  reps: z.coerce.number().int().positive(),
+  weightKg: z.coerce.number().positive(),
+});
 
 const exerciseSchema = z.object({
   type: z.enum(['strength', 'cardio'], {
     required_error: 'Please select an exercise type.',
   }),
   name: z.string().min(2, { message: 'Exercise name must be at least 2 characters.' }),
-  sets: z.coerce.number().int().positive().optional(),
-  reps: z.coerce.number().int().positive().optional(),
-  weightKg: z.coerce.number().positive().optional(),
+  sets: z.array(strengthSetSchema).optional(),
   minutes: z.coerce.number().int().positive().optional(),
 });
 
@@ -50,8 +54,8 @@ type ExerciseFormValues = z.infer<typeof exerciseSchema>;
 // Mock function to calculate XP
 const calculateXp = (data: ExerciseFormValues) => {
   let xp = 0;
-  if (data.type === 'strength') {
-    xp += (data.sets || 0) * (data.reps || 0) * (data.weightKg || 1) * 0.5;
+  if (data.type === 'strength' && data.sets) {
+    xp += data.sets.reduce((total, set) => total + (set.reps * set.weightKg * 0.1), 0);
   } else if (data.type === 'cardio') {
     xp += (data.minutes || 0) * 2;
   }
@@ -183,68 +187,11 @@ export function LogWorkoutForm() {
             />
 
           {fields.map((field, index) => (
-            <Card key={field.id} className="relative p-4 pt-8">
-                <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => remove(index)}>
-                    <Trash2 className="h-4 w-4 text-destructive"/>
-                </Button>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                 <FormField
-                    control={form.control}
-                    name={`exercises.${index}.type`}
-                    render={({ field: selectField }) => (
-                        <FormItem>
-                        <FormLabel>Exercise Type</FormLabel>
-                        <Select
-                            onValueChange={selectField.onChange}
-                            defaultValue={selectField.value}
-                        >
-                            <FormControl>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select a type" />
-                            </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                                <SelectItem value="strength"><div className="flex items-center gap-2"><Dumbbell className="h-4 w-4" /> Strength</div></SelectItem>
-                                <SelectItem value="cardio"><div className="flex items-center gap-2"><HeartPulse className="h-4 w-4" /> Cardio</div></SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                 <FormField
-                    control={form.control}
-                    name={`exercises.${index}.name`}
-                    render={({ field: inputField }) => (
-                        <FormItem>
-                        <FormLabel>Exercise Name</FormLabel>
-                        <FormControl>
-                            <Input placeholder="e.g., Bench Press" {...inputField} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
-              </div>
-
-                {watchExercises[index]?.type === 'strength' && (
-                <div className="mt-4 grid grid-cols-3 gap-4">
-                    <FormField control={form.control} name={`exercises.${index}.sets`} render={({ field }) => (<FormItem><FormLabel>Sets</FormLabel><FormControl><Input type="number" placeholder="3" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                    <FormField control={form.control} name={`exercises.${index}.reps`} render={({ field }) => (<FormItem><FormLabel>Reps</FormLabel><FormControl><Input type="number" placeholder="10" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                    <FormField control={form.control} name={`exercises.${index}.weightKg`} render={({ field }) => (<FormItem><FormLabel>Weight (kg)</FormLabel><FormControl><Input type="number" placeholder="50" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                </div>
-                )}
-                {watchExercises[index]?.type === 'cardio' && (
-                <div className="mt-4">
-                    <FormField control={form.control} name={`exercises.${index}.minutes`} render={({ field }) => (<FormItem><FormLabel>Minutes</FormLabel><FormControl><Input type="number" placeholder="30" {...field} /></FormControl></FormItem>)} />
-                </div>
-                )}
-
-            </Card>
+            <ExerciseField key={field.id} form={form} index={index} remove={remove} />
           ))}
           
           <div className="flex items-center gap-4">
-            <Button type="button" variant="outline" onClick={() => append({ type: 'strength', name: '' })}>
+            <Button type="button" variant="outline" onClick={() => append({ type: 'strength', name: '', sets: [{reps: 8, weightKg: 20}] })}>
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Add Exercise
             </Button>
@@ -259,3 +206,87 @@ export function LogWorkoutForm() {
     </div>
   );
 }
+
+
+function ExerciseField({ form, index, remove }: { form: any, index: number, remove: (index: number) => void }) {
+  const watchExerciseType = form.watch(`exercises.${index}.type`);
+
+  const { fields: setFields, append: appendSet, remove: removeSet } = useFieldArray({
+    control: form.control,
+    name: `exercises.${index}.sets`
+  });
+
+  return (
+    <Card className="relative p-4 pt-8">
+      <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => remove(index)}>
+        <Trash2 className="h-4 w-4 text-destructive" />
+      </Button>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <FormField
+          control={form.control}
+          name={`exercises.${index}.type`}
+          render={({ field: selectField }) => (
+            <FormItem>
+              <FormLabel>Exercise Type</FormLabel>
+              <Select
+                onValueChange={selectField.onChange}
+                defaultValue={selectField.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="strength"><div className="flex items-center gap-2"><Dumbbell className="h-4 w-4" /> Strength</div></SelectItem>
+                  <SelectItem value="cardio"><div className="flex items-center gap-2"><HeartPulse className="h-4 w-4" /> Cardio</div></SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name={`exercises.${index}.name`}
+          render={({ field: inputField }) => (
+            <FormItem>
+              <FormLabel>Exercise Name</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g., Bench Press" {...inputField} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      {watchExerciseType === 'strength' && (
+        <div className="mt-4 space-y-4">
+          <FormLabel>Sets</FormLabel>
+          {setFields.map((setField, setIndex) => (
+            <div key={setField.id} className="flex items-center gap-2">
+              <span className="text-sm font-medium text-muted-foreground">Set {setIndex + 1}</span>
+              <FormField control={form.control} name={`exercises.${index}.sets.${setIndex}.reps`} render={({ field }) => (<FormItem className="flex-1"><FormControl><Input type="number" placeholder="Reps" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name={`exercises.${index}.sets.${setIndex}.weightKg`} render={({ field }) => (<FormItem className="flex-1"><FormControl><Input type="number" placeholder="Weight (kg)" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <Button type="button" variant="ghost" size="icon" onClick={() => removeSet(setIndex)}>
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+          <Button type="button" size="sm" variant="outline" onClick={() => appendSet({ reps: 8, weightKg: 20 })}>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add Set
+          </Button>
+        </div>
+      )}
+      
+      {watchExerciseType === 'cardio' && (
+        <div className="mt-4">
+          <FormField control={form.control} name={`exercises.${index}.minutes`} render={({ field }) => (<FormItem><FormLabel>Minutes</FormLabel><FormControl><Input type="number" placeholder="30" {...field} /></FormControl></FormItem>)} />
+        </div>
+      )}
+    </Card>
+  );
+}
+
