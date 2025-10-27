@@ -20,6 +20,39 @@ npm run dev
 
 Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
 
+## Game Data
+
+This section details the various game elements available in FitRPG.
+
+### Creature Skills
+
+| Skill Name      | Description                                  | Unlock Level |
+| --------------- | -------------------------------------------- | ------------ |
+| Quick Attack    | A speedy physical attack.                    | 1            |
+| Thunder Shock   | An electric shock that may paralyze the foe. | 1            |
+| Iron Defense    | Hardens the body to raise Defense.           | 10           |
+
+### Monsters
+
+| Name       | Species          | Level | Unlock Level |
+| ---------- | ---------------- | ----- | ------------ |
+| Slime      | Gelatinous Cube  | 1     | 1            |
+| Grumble    | Cave Goblin      | 3     | 1            |
+| AI Rival   | Cyborg Athlete   | 5     | 5            |
+| Wyvern     | Young Dragon     | 7     | 7            |
+
+### Community Challenges
+
+| Title                 | Description                                    | Reward   |
+| --------------------- | ---------------------------------------------- | -------- |
+| 5K Steps a Day        | Walk or run 5,000 steps every day for a week.  | 100 XP   |
+| Strength Starter      | Complete 3 strength training sessions this week. | 150 XP   |
+| Mobility Master       | Accumulate 60 minutes of mobility exercises.   | 120 XP   |
+| Cardio Crusher        | Accumulate 90 minutes of cardio this week.     | 125 XP   |
+| Volume Voyager        | Lift a total of 5,000 kg this month.           | 200 XP   |
+| Perfect Week          | Complete one workout every day for 7 days straight. | 300 XP   |
+
+
 ## Firebase Backend Setup
 
 This project includes a complete Firebase backend configuration for a fitness application.
