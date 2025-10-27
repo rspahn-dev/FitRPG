@@ -41,8 +41,8 @@ export const recentWorkouts = [
     type: 'strength',
     ts: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
     exercises: [
-        { name: 'Squat', sets: 3, reps: 8, weightKg: 120 },
-        { name: 'Bench Press', sets: 3, reps: 8, weightKg: 90 },
+        { type: 'strength', name: 'Squat', sets: 3, reps: 8, weightKg: 120 },
+        { type: 'strength', name: 'Bench Press', sets: 3, reps: 8, weightKg: 90 },
     ]
   },
   {
@@ -51,9 +51,29 @@ export const recentWorkouts = [
     type: 'cardio',
     ts: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     exercises: [
-        { name: 'Running', minutes: 30 },
+        { type: 'cardio', name: 'Running', minutes: 30 },
     ]
   },
+  {
+    id: 'w3',
+    name: 'Leg Day',
+    type: 'strength',
+    ts: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+    exercises: [
+        { type: 'strength', name: 'Deadlift', sets: 1, reps: 5, weightKg: 150 },
+        { type: 'strength', name: 'Leg Press', sets: 4, reps: 10, weightKg: 200 },
+    ]
+  },
+  {
+    id: 'w4',
+    name: 'HIIT Session',
+    type: 'cardio',
+    ts: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+    exercises: [
+        { type: 'cardio', name: 'Burpees', minutes: 5 },
+        { type: 'cardio', name: 'Jump Rope', minutes: 10 },
+    ]
+  }
 ];
 
 export const workoutTemplates = [
