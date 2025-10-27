@@ -1,3 +1,4 @@
+
 'use client';
 import type { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
@@ -63,8 +64,8 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link href="#">
+              <SidebarMenuButton asChild isActive={pathname === '/settings'}>
+                <Link href="/settings">
                   <Settings />
                   <span>Settings</span>
                 </Link>

@@ -13,7 +13,6 @@ import { Button } from '@/components/ui/button';
 import {
   Flame,
   LineChart,
-  ShieldCheck,
   Star,
   Dumbbell,
   Swords,
@@ -99,57 +98,26 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Creature Overview */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Your Companion</CardTitle>
-            <CardDescription>
-              Your creature grows stronger with every workout you complete.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center gap-6">
-            <Avatar className="h-24 w-24 border-2 border-primary">
-              <AvatarImage
-                src={userProfile.creature.image}
-                alt={userProfile.creature.name}
-              />
-              <AvatarFallback>
-                {userProfile.creature.name.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <h3 className="text-xl font-bold">{userProfile.creature.name}</h3>
-              <p className="text-muted-foreground">
-                {userProfile.creature.species}
-              </p>
-              <div className="mt-4 grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <p className="font-bold text-lg">{userStats.str}</p>
-                  <p className="text-xs text-muted-foreground">Strength</p>
-                </div>
-                <div>
-                  <p className="font-bold text-lg">{userStats.agi}</p>
-                  <p className="text-xs text-muted-foreground">Agility</p>
-                </div>
-                <div>
-                  <p className="font-bold text-lg">{userStats.sta}</p>
-                  <p className="text-xs text-muted-foreground">Stamina</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-           <CardFooter className="flex gap-4">
-              <Button asChild className="flex-1">
+        {/* Quick Actions */}
+        <Card className="lg:col-span-1">
+           <CardHeader>
+                <CardTitle>Quick Actions</CardTitle>
+                <CardDescription>
+                    Jump right back into the action.
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-4">
+              <Button asChild className="flex-1" size="lg">
                   <Link href="/log-workout"><PenSquare /> Log Workout</Link>
               </Button>
-              <Button asChild variant="outline" className="flex-1">
-                  <Link href="/battle"><Swords /> Battle</Link>
+              <Button asChild variant="secondary" className="flex-1" size="lg">
+                  <Link href="/battle"><Swords /> Go to Battle</Link>
               </Button>
-            </CardFooter>
+            </CardContent>
         </Card>
         
         {/* Your Bag */}
-        <Card>
+        <Card className="lg:col-span-2">
             <CardHeader>
                 <CardTitle>Your Bag</CardTitle>
                 <CardDescription>Items collected from battles.</CardDescription>
