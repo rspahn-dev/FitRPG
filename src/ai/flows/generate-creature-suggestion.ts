@@ -12,8 +12,8 @@ import { z } from 'genkit';
 
 const GenerateCreatureSuggestionOutputSchema = z.object({
   creatureName: z.string().describe('A creative and cool name for a new creature.'),
-  creatureType: z.enum(['fire', 'water', 'earth', 'air', 'electric']).describe('The elemental type of the creature.'),
-  fitnessGoals: z.string().describe('A simple, motivating fitness goal for a beginner. Should be 1-2 sentences.'),
+  creatureType: z.string().describe('A creative and cool type for a new creature (e.g. "Electric Squirrel", "Rock Golem").'),
+  fitnessGoals: z.string().describe('A simple, motivating fitness goal for a beginner, written in the first person. Should be 1-2 sentences.'),
 });
 export type GenerateCreatureSuggestionOutput = z.infer<typeof GenerateCreatureSuggestionOutputSchema>;
 
@@ -27,7 +27,7 @@ const prompt = ai.definePrompt({
   output: { schema: GenerateCreatureSuggestionOutputSchema },
   prompt: `You are a creative assistant for a fitness RPG game called FitRPG. Your task is to generate a single, compelling suggestion for a new player's first creature and fitness goal.
 
-  Generate a creative creature name, select an elemental type from the available options, and write a simple, inspiring fitness goal for a beginner. The goal should be about starting a new fitness journey.`,
+  Generate a creative creature name, a creative creature type, and write a simple, inspiring fitness goal for a beginner. The goal should be about starting a new fitness journey and written in the first person.`,
 });
 
 

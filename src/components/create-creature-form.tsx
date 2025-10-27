@@ -14,13 +14,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -30,7 +23,7 @@ import { useState } from 'react';
 
 const creatureFormSchema = z.object({
   creatureName: z.string().min(2, 'Name must be at least 2 characters.'),
-  creatureType: z.enum(['fire', 'water', 'earth', 'air', 'electric']),
+  creatureType: z.string().min(2, 'Type must be at least 2 characters.'),
   fitnessGoals: z.string().min(10, 'Goals must be at least 10 characters.'),
 });
 
@@ -45,7 +38,7 @@ export function CreateCreatureForm() {
     resolver: zodResolver(creatureFormSchema),
     defaultValues: {
       creatureName: '',
-      creatureType: 'fire',
+      creatureType: '',
       fitnessGoals: '',
     },
   });
@@ -124,20 +117,9 @@ export function CreateCreatureForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Creature Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your creature's elemental type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="fire">Fire</SelectItem>
-                  <SelectItem value="water">Water</SelectItem>
-                  <SelectItem value="earth">Earth</SelectItem>
-                  <SelectItem value="air">Air</SelectItem>
-                  <SelectItem value="electric">Electric</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <Input placeholder="e.g., Fire, Water, Electric Squirrel" {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -148,10 +130,10 @@ export function CreateCreatureForm() {
           name="fitnessGoals"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Your Fitness Goals</FormLabel>
+              <FormLabel>Fitness Goals</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="e.g., Run a 5k, get stronger for hiking, improve my overall health."
+                  placeholder="e.g., I want to run a 5k, get stronger for hiking, or improve my overall health."
                   {...field}
                 />
               </FormControl>
