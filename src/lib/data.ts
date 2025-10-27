@@ -190,6 +190,30 @@ export const communityChallenges = [
     reward: '120 XP',
     image: 'challengeMobility',
   },
+  {
+    id: 'c4',
+    title: 'Cardio Crusher',
+    description: 'Accumulate 90 minutes of cardio this week.',
+    progress: 45,
+    reward: '125 XP',
+    image: 'cardioWorkout',
+  },
+  {
+    id: 'c5',
+    title: 'Volume Voyager',
+    description: 'Lift a total of 5,000 kg this month.',
+    progress: 25,
+    reward: '200 XP',
+    image: 'strengthTraining',
+  },
+  {
+    id: 'c6',
+    title: 'Perfect Week',
+    description: 'Complete one workout every day for 7 days straight.',
+    progress: 60,
+    reward: '300 XP',
+    image: 'challengePerfectWeek',
+  },
 ];
 
 export const lootTable = {
