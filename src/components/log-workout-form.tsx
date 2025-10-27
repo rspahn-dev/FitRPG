@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Dumbbell, HeartPulse, Star, Trash2, PlusCircle, Save } from 'lucide-react';
+import { Dumbbell, HeartPulse, Star, Trash2, PlusCircle, Save, Bed } from 'lucide-react';
 import { Separator } from './ui/separator';
 import { Card, CardContent } from './ui/card';
 import { workoutTemplates } from '@/lib/data';
@@ -123,11 +123,29 @@ export function LogWorkoutForm() {
     }
   }
 
+  const handleLogRestDay = () => {
+    const xpGained = 25; // Small reward for consistency
+    toast({
+        title: "Rest Day Logged!",
+        description: (
+            <div className="flex flex-col gap-2">
+                <span>Rest is essential for growth. Good job!</span>
+                <div className="flex items-center font-bold text-yellow-500">
+                    <Star className="mr-1 h-4 w-4 fill-yellow-400" />
+                    <span>+ {xpGained} XP</span>
+                </div>
+            </div>
+        )
+    });
+    // In a real app, you'd also save this to the user's history
+    console.log("Rest day logged. XP Gained:", xpGained);
+  }
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <Select onValueChange={loadTemplate}>
-            <SelectTrigger className="w-[280px]">
+            <SelectTrigger className="w-full md:w-[280px]">
                 <SelectValue placeholder="Load from Template" />
             </SelectTrigger>
             <SelectContent>
@@ -141,6 +159,10 @@ export function LogWorkoutForm() {
         <Button type="button" variant="outline" onClick={handleSaveTemplate}>
             <Save className="mr-2 h-4 w-4" />
             Save as Template
+        </Button>
+        <Button type="button" variant="secondary" onClick={handleLogRestDay}>
+            <Bed className="mr-2 h-4 w-4" />
+            Log Rest Day
         </Button>
       </div>
       <Separator />
@@ -214,7 +236,7 @@ export function LogWorkoutForm() {
                 )}
                 {watchExercises[index]?.type === 'cardio' && (
                 <div className="mt-4">
-                    <FormField control={form.control} name={`exercises.${index}.minutes`} render={({ field }) => (<FormItem><FormLabel>Minutes</FormLabel><FormControl><Input type="number" placeholder="30" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                    <FormField control={form.control} name={`exercises.${index}.minutes`} render={({ field }) => (<FormItem><FormLabel>Minutes</FormLabel><FormControl><Input type="number" placeholder="30" {...field} /></FormControl></FormItem>)} />
                 </div>
                 )}
 
