@@ -20,6 +20,7 @@ const navItems = [
   { href: '/', label: 'Dashboard', icon: 'LayoutDashboard' },
   { href: '/creature', label: 'Creature', icon: 'Cat' },
   { href: '/log-workout', label: 'Log Workout', icon: 'PenSquare' },
+  { href: '/battle', label: 'Battle', icon: 'Swords' },
   { href: '/progress', label: 'Progress', icon: 'LineChart' },
   { href: '/ai-trainer', label: 'AI Trainer', icon: 'Bot' },
   { href: '/challenges', label: 'Challenges', icon: 'Trophy' },

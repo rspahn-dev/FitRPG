@@ -8,6 +8,10 @@ export const userProfile = {
     name: 'Sparky',
     species: 'Electric Squirrel',
     image: 'https://picsum.photos/seed/creature1/128/128',
+    skills: [
+        { name: 'Quick Attack', description: 'A speedy physical attack.' },
+        { name: 'Thunder Shock', description: 'An electric shock that may paralyze the foe.' },
+    ]
   }
 };
 
@@ -92,3 +96,27 @@ export const communityChallenges = [
     image: 'challengeMobility',
   },
 ];
+
+export const monsters = [
+    {
+        id: 'm1',
+        name: 'Grumble',
+        species: 'Cave Goblin',
+        level: 3,
+        image: 'https://picsum.photos/seed/monster1/128/128',
+    },
+    {
+        id: 'm2',
+        name: 'Slime',
+        species: 'Gelatinous Cube',
+        level: 1,
+        image: 'https://picsum.photos/seed/monster2/128/128',
+    },
+    {
+        id: 'm3',
+        name: 'Wyvern',
+        species: 'Young Dragon',
+        level: 7,
+        image: 'https://picsum.photos/seed/monster3/128/128',
+    }
+]

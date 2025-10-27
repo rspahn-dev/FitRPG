@@ -1,11 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { userProfile } from '@/lib/data';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 export default function CreaturePage() {
   return (
-    <div className="mx-auto w-full max-w-2xl">
-      <div className="mb-8 flex flex-col items-center gap-4">
+    <div className="mx-auto w-full max-w-2xl space-y-8">
+      <div className="flex flex-col items-center gap-4">
         <img 
             src={userProfile.creature.image} 
             alt={userProfile.creature.name}
@@ -20,13 +21,24 @@ export default function CreaturePage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Creature Details</CardTitle>
+          <CardTitle>Skills</CardTitle>
           <CardDescription>
-            Here you can view and customize your FitRPG companion.
+            Your creature's abilities for use in battle.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <p>Customization options coming soon!</p>
+          {userProfile.creature.skills.length > 0 ? (
+            <div className="space-y-4">
+                {userProfile.creature.skills.map((skill) => (
+                    <div key={skill.name} className="flex items-start gap-4">
+                        <Badge variant="secondary" className="text-sm">{skill.name}</Badge>
+                        <p className="text-muted-foreground">{skill.description}</p>
+                    </div>
+                ))}
+            </div>
+          ) : (
+            <p>Your creature has not learned any skills yet. Keep training!</p>
+          )}
         </CardContent>
       </Card>
     </div>
