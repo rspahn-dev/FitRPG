@@ -1,6 +1,7 @@
 'use server';
 
 import { generatePersonalizedWorkoutPlan } from '@/ai/flows/generate-personalized-workout-plan';
+import { generateCreatureSuggestion } from '@/ai/flows/generate-creature-suggestion';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -10,15 +11,15 @@ const formSchema = z.object({
   workoutPreferences: z.string().optional(),
 });
 
-type State = {
+type WorkoutPlanState = {
   workoutPlan: string;
   error: string;
 };
 
 export async function generateWorkoutPlanAction(
-  prevState: State,
+  prevState: WorkoutPlanState,
   formData: FormData
-): Promise<State> {
+): Promise<WorkoutPlanState> {
   try {
     const parsedData = formSchema.safeParse({
       fitnessGoals: formData.get('fitnessGoals'),
@@ -46,5 +47,17 @@ export async function generateWorkoutPlanAction(
       ...prevState,
       error: 'Failed to generate workout plan. Please try again later.',
     };
+  }
+}
+
+
+export async function generateCreatureSuggestionAction() {
+  try {
+    const suggestion = await generateCreatureSuggestion();
+    return suggestion;
+  } catch (error) {
+    console.error('Error generating creature suggestion:', error);
+    // Return null or throw a more specific error to be handled by the client
+    return null;
   }
 }

@@ -1,201 +1,21 @@
-
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Dumbbell, Shield, Zap, Star, Heart, Brain, Package, Wind } from 'lucide-react';
-import { userStats, recentWorkouts, userProfile } from '@/lib/data';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { formatDistanceToNow } from 'date-fns';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
-import * as icons from 'lucide-react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 export default function Home() {
-  const { toast } = useToast();
-  const xpPercentage = (userStats.xp / userStats.xpToNext) * 100;
+  const router = useRouter();
 
-  const handleUseItem = (itemId: string, itemName: string) => {
-    // In a real app, this would trigger a state update.
-    // For now, we just remove it from the mock data and show a toast.
-    const itemIndex = userProfile.bag.findIndex(item => item.id === itemId);
-    if (itemIndex > -1) {
-      userProfile.bag.splice(itemIndex, 1);
-    }
-    
-    toast({
-      title: 'Item Used!',
-      description: `You used ${itemName}.`,
-    });
-
-    // This is a mock-only way to force a re-render.
-    // In a real app with state management, this wouldn't be necessary.
-    (window as any)._forceRefresh = Math.random();
-  }
-  
-  const getLootIcon = (iconName: string) => {
-      const Icon = (icons as any)[iconName] || Package;
-      return <Icon className="mr-2 h-4 w-4" />;
-  }
+  useEffect(() => {
+    // Redirect to the welcome page to simulate new user onboarding
+    router.replace('/welcome');
+  }, [router]);
 
   return (
-    <div className="flex flex-col gap-8">
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-4">
-            <img src={userProfile.creature.image} alt="Creature" className="h-24 w-24 rounded-lg border-2 border-primary" />
-            <div className="flex-1">
-              <CardTitle className="text-3xl">{userProfile.creature.name}</CardTitle>
-              <CardDescription>Level {userStats.level} {userProfile.creature.species}</CardDescription>
-              <div className="mt-2">
-                <div className="flex justify-between text-sm text-muted-foreground mb-1">
-                  <span>XP</span>
-                  <span>{userStats.xp} / {userStats.xpToNext}</span>
-                </div>
-                <Progress value={xpPercentage} />
-              </div>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-3">
-           <div className="flex items-center gap-4 rounded-lg border p-4">
-             <div className="rounded-full bg-red-500/10 p-2 text-red-500">
-                <Heart className="h-6 w-6" />
-             </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Stamina</p>
-                <p className="text-xl font-bold">{userStats.sta}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 rounded-lg border p-4">
-              <div className="rounded-full bg-green-500/10 p-2 text-green-500">
-                 <Shield className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Agility</p>
-                <p className="text-xl font-bold">{userStats.agi}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 rounded-lg border p-4">
-              <div className="rounded-full bg-blue-500/10 p-2 text-blue-500">
-                <Dumbbell className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Strength</p>
-                <p className="text-xl font-bold">{userStats.str}</p>
-              </div>
-            </div>
-        </CardContent>
-      </Card>
-
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Workouts This Week
-              </CardTitle>
-              <Dumbbell className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{userStats.workoutsThisWeek}</div>
-              <p className="text-xs text-muted-foreground">
-                Keep up the great work!
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Minutes</CardTitle>
-              <Zap className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{userStats.activeMinutesThisWeek}</div>
-              <p className="text-xs text-muted-foreground">Total for this week</p>
-            </CardContent>
-          </Card>
-          <Card className="md:col-span-2">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Current Streak</CardTitle>
-              <Star className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{userStats.streakDays} days</div>
-              <p className="text-xs text-muted-foreground">Don't break the chain</p>
-            </CardContent>
-          </Card>
-        </div>
-        
-        <Card className="lg:col-span-1 flex flex-col">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Package className="h-6 w-6" />
-              <CardTitle>Your Bag</CardTitle>
-            </div>
-            <CardDescription>Items collected from battles.</CardDescription>
-          </CardHeader>
-          <CardContent className="flex-1 space-y-4">
-            {userProfile.bag.length > 0 ? (
-              userProfile.bag.map((item) => (
-                <div key={item.id} className="flex items-center justify-between">
-                  <div className="flex flex-col">
-                    <span className="font-semibold flex items-center">
-                      {getLootIcon(item.icon)} {item.name}
-                    </span>
-                    <span className="text-xs text-muted-foreground">{item.description}</span>
-                  </div>
-                  <Button variant="outline" size="sm" onClick={() => handleUseItem(item.id, item.name)}>Use</Button>
-                </div>
-              ))
-            ) : (
-              <p className="text-sm text-muted-foreground text-center py-4">Your bag is empty. Defeat monsters to find loot!</p>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Workout</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead className="text-right">Date</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recentWorkouts.map((workout) => (
-                <TableRow key={workout.id}>
-                  <TableCell className="font-medium">{workout.name}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className="capitalize">
-                      {workout.type}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right text-muted-foreground">
-                    {formatDistanceToNow(new Date(workout.ts), {
-                      addSuffix: true,
-                    })}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      <p className="mt-4 text-muted-foreground">Loading your adventure...</p>
     </div>
   );
 }
