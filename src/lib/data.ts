@@ -12,7 +12,11 @@ export const userProfile = {
     skills: [
         { name: 'Quick Attack', description: 'A speedy physical attack.' },
         { name: 'Thunder Shock', description: 'An electric shock that may paralyze the foe.' },
-    ]
+    ],
+    gear: {
+        helmet: null,
+        armor: null,
+    }
   },
   bag: [
     { id: 'loot1', name: 'Health Potion', description: 'Restores 20 HP.', icon: 'Heart' }
@@ -151,28 +155,22 @@ export const lootTable = {
 
 export const monsters = [
     {
-        id: 'm1',
-        name: 'Grumble',
-        species: 'Cave Goblin',
-        level: 3,
-        image: 'https://picsum.photos/seed/monster1/128/128',
-        loot: lootTable.loot2,
-    },
-    {
         id: 'm2',
         name: 'Slime',
         species: 'Gelatinous Cube',
         level: 1,
         image: 'https://picsum.photos/seed/monster2/128/128',
         loot: lootTable.loot1,
+        unlockLevel: 1,
     },
     {
-        id: 'm3',
-        name: 'Wyvern',
-        species: 'Young Dragon',
-        level: 7,
-        image: 'https://picsum.photos/seed/monster3/128/128',
-        loot: lootTable.loot4,
+        id: 'm1',
+        name: 'Grumble',
+        species: 'Cave Goblin',
+        level: 3,
+        image: 'https://picsum.photos/seed/monster1/128/128',
+        loot: lootTable.loot2,
+        unlockLevel: 1,
     },
     {
         id: 'rival',
@@ -181,7 +179,17 @@ export const monsters = [
         level: userStats.level, // Level scales with the user
         image: 'https://picsum.photos/seed/rival/128/128',
         loot: lootTable.loot4,
-    }
+        unlockLevel: 5,
+    },
+    {
+        id: 'm3',
+        name: 'Wyvern',
+        species: 'Young Dragon',
+        level: 7,
+        image: 'https://picsum.photos/seed/monster3/128/128',
+        loot: lootTable.loot4,
+        unlockLevel: 7,
+    },
 ]
 
 export const friends = [

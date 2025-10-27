@@ -11,21 +11,26 @@ import {
   SidebarTrigger,
   SidebarInset,
   SidebarRail,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarSeparator,
 } from '@/components/ui/sidebar';
 import { SidebarNav } from '@/components/layout/sidebar-nav';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Header } from './header';
-import { Dumbbell } from 'lucide-react';
+import { Dumbbell, Settings } from 'lucide-react';
+import Link from 'next/link';
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: 'LayoutDashboard' },
-  { href: '/creature', label: 'Creature', icon: 'Cat' },
   { href: '/log-workout', label: 'Log Workout', icon: 'PenSquare' },
   { href: '/battle', label: 'Battle', icon: 'Swords' },
   { href: '/progress', label: 'Progress', icon: 'LineChart' },
   { href: '/ai-trainer', label: 'AI Trainer', icon: 'Bot' },
   { href: '/challenges', label: 'Challenges', icon: 'Trophy' },
   { href: '/social', label: 'Social', icon: 'Users' },
+  { href: '/creature', label: 'Creature', icon: 'Cat' },
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
@@ -41,8 +46,21 @@ export function AppLayout({ children }: { children: ReactNode }) {
             <span className="text-lg font-semibold">FitRPG</span>
           </div>
         </SidebarHeader>
-        <SidebarContent>
+        <SidebarContent className="flex-1">
           <SidebarNav items={navItems} pathname={pathname} />
+        </SidebarContent>
+        <SidebarContent>
+          <SidebarSeparator />
+           <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link href="#">
+                  <Settings />
+                  <span>Settings</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
           <div className="flex items-center gap-2">
