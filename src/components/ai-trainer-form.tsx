@@ -1,6 +1,7 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -59,7 +60,7 @@ function SubmitButton() {
 
 
 export default function AiTrainerForm() {
-  const [state, formAction] = useFormState(
+  const [state, formAction] = useActionState(
     generateWorkoutPlanAction,
     initialState
   );
