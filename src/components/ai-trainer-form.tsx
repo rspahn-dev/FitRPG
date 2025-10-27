@@ -5,6 +5,7 @@ import { useFormStatus } from 'react-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -207,9 +208,9 @@ export default function AiTrainerForm() {
             <CardTitle>Your Personalized Workout Plan</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="prose prose-sm max-w-none whitespace-pre-wrap">
-              {state.workoutPlan}
-            </div>
+            <article className="prose prose-sm max-w-none dark:prose-invert">
+              <ReactMarkdown>{state.workoutPlan}</ReactMarkdown>
+            </article>
           </CardContent>
         </Card>
       )}

@@ -31,7 +31,7 @@ export type GeneratePersonalizedWorkoutPlanInput = z.infer<typeof GeneratePerson
 const GeneratePersonalizedWorkoutPlanOutputSchema = z.object({
   workoutPlan: z
     .string()
-    .describe('A personalized workout plan based on the user\u0027s input.'),
+    .describe('A personalized workout plan formatted as a Markdown string. Use headings, lists, and bold text to structure the plan.'),
 });
 export type GeneratePersonalizedWorkoutPlanOutput = z.infer<typeof GeneratePersonalizedWorkoutPlanOutputSchema>;
 
@@ -52,7 +52,8 @@ Fitness Level: {{{fitnessLevel}}}
 Past Workout History: {{{pastWorkoutHistory}}}
 Workout Preferences: {{{workoutPreferences}}}
 
-Workout Plan:`,
+Format the response as a Markdown string. Use headings for sections, bullet points for lists of exercises, and bold text for emphasis.
+`,
 });
 
 const generatePersonalizedWorkoutPlanFlow = ai.defineFlow(
