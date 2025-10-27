@@ -1,0 +1,60 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Public read-only seed area (OPTIONAL)
+    match /public/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Per-user isolation
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+
+      // Field-level validations for known docs
+      function isValidStat(n) { return n is int && n >= 0 && n <= 9999; }
+      function isValidSmall(n) { return n is int && n >= 0 && n <= 1000000; }
+      function isValidType(t) { return t in ['strength','cardio','mobility']; }
+      function isTimestamp(x) { return x is timestamp; }
+
+      // Workouts docs validation
+      match /workouts/{wid} {
+        allow create, update: if
+          isValidType(request.resource.data.type) &&
+          (!('reps' in request.resource.data) || isValidSmall(request.resource.data.reps)) &&
+          (!('sets' in request.resource.data) || isValidSmall(request.resource.data.sets)) &&
+          (!('minutes' in request.resource.data) || isValidSmall(request.resource.data.minutes)) &&
+          (!('steps' in request.resource.data) || isValidSmall(request.resource.data.steps)) &&
+          (!('weightKg' in request.resource.data) || (request.resource.data.weightKg is number && request.resource.data.weightKg >= 0 && request.resource.data.weightKg <= 2000)) &&
+          ('ts' in request.resource.data) && isTimestamp(request.resource.data.ts);
+      }
+
+      // Player doc validation
+      match /player/{docId} {
+        allow create, update: if
+          isValidStat(getOr(request.resource.data, 'level', 1)) &&
+          isValidSmall(getOr(request.resource.data, 'xp', 0)) &&
+          isValidStat(getOr(request.resource.data, 'str', 5)) &&
+          isValidStat(getOr(request.resource.data, 'agi', 5)) &&
+          isValidStat(getOr(request.resource.data, 'sta', 5)) &&
+          isValidStat(getOr(request.resource.data, 'intl', 5)) &&
+          isValidSmall(getOr(request.resource.data, 'energyToday', 0)) &&
+          isValidSmall(getOr(request.resource.data, 'energyCap', 200)) &&
+          isValidSmall(getOr(request.resource.data, 'streakDays', 0));
+      }
+
+      // Layout doc validation
+      match /layout/{docId} {
+        allow create, update: if
+          ('order' in request.resource.data && request.resource.data.order is list) &&
+          ('hidden' in request.resource.data ? request.resource.data.hidden is list : true);
+      }
+    }
+  }
+}
+
+function getOr(map, key, default) {
+  return (key in map) ? map[key] : default;
+}

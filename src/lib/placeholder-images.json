@@ -1,3 +1,34 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "challengeSteps",
+      "description": "Person walking on a path in a park.",
+      "imageUrl": "https://images.unsplash.com/photo-1648256138994-dbee653d379a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3YWxraW5nJTIwcGF0aHxlbnwwfHx8fDE3NjE1NzIwOTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "walking path"
+    },
+    {
+      "id": "challengeStrength",
+      "description": "Person lifting weights in a gym.",
+      "imageUrl": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3ZWlnaHQlMjBsaWZ0aW5nfGVufDB8fHx8MTc2MTUwMDk1M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "weight lifting"
+    },
+    {
+      "id": "challengeMobility",
+      "description": "Person doing yoga outdoors.",
+      "imageUrl": "https://images.unsplash.com/photo-1758797315487-b3b225dff7d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx5b2dhJTIwb3V0ZG9vcnN8ZW58MHx8fHwxNzYxNTA2NjYzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "yoga outdoors"
+    },
+    {
+      "id": "strengthTraining",
+      "description": "A set of dumbbells on a rack.",
+      "imageUrl": "https://images.unsplash.com/photo-1573858129122-33bdb25d6950?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZHVtYmJlbGxzJTIwZ3ltfGVufDB8fHx8MTc2MTU3MjA5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dumbbells gym"
+    },
+    {
+      "id": "cardioWorkout",
+      "description": "A treadmill in an empty gym.",
+      "imageUrl": "https://images.unsplash.com/photo-1716367840427-4c148eb7bf15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0cmVhZG1pbGwlMjBneW18ZW58MHx8fHwxNzYxNTcyMDk0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "treadmill gym"
+    }
+  ]
 }
