@@ -1,3 +1,4 @@
+
 'use client';
 import type { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
@@ -24,6 +25,7 @@ const navItems = [
   { href: '/progress', label: 'Progress', icon: 'LineChart' },
   { href: '/ai-trainer', label: 'AI Trainer', icon: 'Bot' },
   { href: '/challenges', label: 'Challenges', icon: 'Trophy' },
+  { href: '/social', label: 'Social', icon: 'Users' },
   { href: '/profile', label: 'Profile', icon: 'User' },
 ];
 

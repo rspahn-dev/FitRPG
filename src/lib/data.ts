@@ -1,3 +1,4 @@
+
 // Mock data for FitRPG UI
 
 export const userProfile = {
@@ -27,32 +28,53 @@ export const userStats = {
   activeMinutesThisWeek: 180,
 };
 
+export const personalRecords = [
+    { exerciseName: 'Bench Press', value: '100 kg', date: '2023-10-26' },
+    { exerciseName: 'Squat', value: '140 kg', date: '2023-10-24' },
+    { exerciseName: '5k Run', value: '22:15', date: '2023-09-15' },
+]
+
 export const recentWorkouts = [
   {
     id: 'w1',
-    name: 'Morning Run',
-    type: 'cardio',
+    name: 'Full Body Strength',
+    type: 'strength',
     ts: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    minutes: 30,
-    steps: 4000,
+    exercises: [
+        { name: 'Squat', sets: 3, reps: 8, weightKg: 120 },
+        { name: 'Bench Press', sets: 3, reps: 8, weightKg: 90 },
+    ]
   },
   {
     id: 'w2',
-    name: 'Upper Body Strength',
-    type: 'strength',
+    name: 'Morning Cardio',
+    type: 'cardio',
     ts: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    sets: 3,
-    reps: 10,
-    weightKg: 20,
-  },
-  {
-    id: 'w3',
-    name: 'Yoga Flow',
-    type: 'mobility',
-    ts: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    minutes: 45,
+    exercises: [
+        { name: 'Running', minutes: 30 },
+    ]
   },
 ];
+
+export const workoutTemplates = [
+    {
+        id: 'template1',
+        name: 'Upper Body Focus',
+        exercises: [
+            { type: 'strength', name: 'Bench Press', sets: 3, reps: 8, weightKg: 90 },
+            { type: 'strength', name: 'Overhead Press', sets: 3, reps: 10, weightKg: 50 },
+            { type: 'strength', name: 'Pull Ups', sets: 3, reps: 8 },
+        ]
+    },
+    {
+        id: 'template2',
+        name: 'Quick Cardio',
+        exercises: [
+            { type: 'cardio', name: 'Treadmill Run', minutes: 20 },
+            { type: 'cardio', name: 'Cycling', minutes: 15 },
+        ]
+    }
+]
 
 export const progressData = {
   workoutsPerWeek: [
@@ -118,5 +140,37 @@ export const monsters = [
         species: 'Young Dragon',
         level: 7,
         image: 'https://picsum.photos/seed/monster3/128/128',
+    },
+    {
+        id: 'rival',
+        name: 'AI Rival',
+        species: 'Cyborg Athlete',
+        level: userStats.level, // Level scales with the user
+        image: 'https://picsum.photos/seed/rival/128/128',
     }
 ]
+
+export const friends = [
+  {
+    id: 'friend1',
+    displayName: 'Sarah',
+    level: 8,
+    creature: {
+      name: 'Flicker',
+      species: 'Flame Fox',
+      image: 'https://picsum.photos/seed/friend1/128/128',
+    },
+    isOnline: true,
+  },
+  {
+    id: 'friend2',
+    displayName: 'Mike',
+    level: 4,
+    creature: {
+      name: 'Boulder',
+      species: 'Rock Golem',
+      image: 'https://picsum.photos/seed/friend2/128/128',
+    },
+    isOnline: false,
+  },
+];
