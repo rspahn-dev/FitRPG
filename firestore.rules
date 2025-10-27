@@ -1,60 +1,128 @@
+/**
+ * @fileoverview Firestore Security Rules for the workout application.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model where each user can only
+ * access their own data. All data is nested under /users/{userId}, ensuring
+ * complete data isolation.
+ *
+ * Data Structure:
+ * - /users/{userId}/profile/profile: User profile data.
+ * - /users/{userId}/player/player: Player-related data.
+ * - /users/{userId}/workouts/{workoutId}: Workout entries for a user.
+ * - /users/{userId}/quests/{questId}: Quest information for a user.
+ * - /users/{userId}/layout/layout: Dashboard layout configuration.
+ *
+ * Key Security Decisions:
+ * - Users can only access data under their own userId.
+ * - List operations are allowed only within the user's own data tree.
+ * - No public data or shared access is implemented in this initial ruleset.
+ *
+ * Denormalization for Authorization:
+ * The data structure is already designed to be authorization-independent,
+ * as each user's data is isolated under their own userId. This eliminates the
+ * need for denormalization or complex authorization checks.
+ */
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Public read-only seed area (OPTIONAL)
-    match /public/{document=**} {
-      allow read: if true;
-      allow write: if false;
+    /**
+     * @description Enforces access control for user profile information. Only the authenticated user can read/write their own profile.
+     * @path /users/{userId}/profile/profile
+     * @allow (create, update) User with matching {userId} can create or update their profile.
+     * @allow (get, list) User with matching {userId} can read their profile.
+     * @deny (create, update) User with mismatched {userId} cannot create or update this profile.
+     * @deny (get, list) User with mismatched {userId} cannot read this profile.
+     * @principle Enforces document ownership for writes. Restricts access to a user's own data tree.
+     */
+    match /users/{userId}/profile/profile {
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.id == userId;
+      allow get: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isOwner(userId) && resource.data.id == userId;
+      allow delete: if false;
+      allow list: if false;
     }
 
-    // Per-user isolation
-    match /users/{uid}/{document=**} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+    /**
+     * @description Enforces access control for player information. Only the authenticated user can read/write their own player data.
+     * @path /users/{userId}/player/player
+     * @allow (create, update) User with matching {userId} can create or update their player data.
+     * @allow (get, list) User with matching {userId} can read their player data.
+     * @deny (create, update) User with mismatched {userId} cannot create or update this player data.
+     * @deny (get, list) User with mismatched {userId} cannot read this player data.
+     * @principle Enforces document ownership for writes. Restricts access to a user's own data tree.
+     */
+    match /users/{userId}/player/player {
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.id == userId;
+      allow get: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isOwner(userId) && resource.data.id == userId;
+      allow delete: if false;
+      allow list: if false;
+    }
 
-      // Field-level validations for known docs
-      function isValidStat(n) { return n is int && n >= 0 && n <= 9999; }
-      function isValidSmall(n) { return n is int && n >= 0 && n <= 1000000; }
-      function isValidType(t) { return t in ['strength','cardio','mobility']; }
-      function isTimestamp(x) { return x is timestamp; }
+    /**
+     * @description Enforces access control for workout entries. Only the authenticated user can read/write their own workout entries.
+     * @path /users/{userId}/workouts/{workoutId}
+     * @allow (create, update) User with matching {userId} can create or update their workout entries.
+     * @allow (get, list) User with matching {userId} can read their workout entries.
+     * @deny (create, update) User with mismatched {userId} cannot create or update this workout entries.
+     * @deny (get, list) User with mismatched {userId} cannot read this workout entries.
+     * @principle Enforces document ownership for writes. Restricts access to a user's own data tree.
+     */
+    match /users/{userId}/workouts/{workoutId} {
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.userId == userId;
+      allow get: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isOwner(userId) && isExistingOwner(userId) && resource.data.userId == userId;
+      allow delete: if isSignedIn() && isExistingOwner(userId) && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+    }
 
-      // Workouts docs validation
-      match /workouts/{wid} {
-        allow create, update: if
-          isValidType(request.resource.data.type) &&
-          (!('reps' in request.resource.data) || isValidSmall(request.resource.data.reps)) &&
-          (!('sets' in request.resource.data) || isValidSmall(request.resource.data.sets)) &&
-          (!('minutes' in request.resource.data) || isValidSmall(request.resource.data.minutes)) &&
-          (!('steps' in request.resource.data) || isValidSmall(request.resource.data.steps)) &&
-          (!('weightKg' in request.resource.data) || (request.resource.data.weightKg is number && request.resource.data.weightKg >= 0 && request.resource.data.weightKg <= 2000)) &&
-          ('ts' in request.resource.data) && isTimestamp(request.resource.data.ts);
-      }
+    /**
+     * @description Enforces access control for quests. Only the authenticated user can read/write their own quest information.
+     * @path /users/{userId}/quests/{questId}
+     * @allow (create, update) User with matching {userId} can create or update their quest information.
+     * @allow (get, list) User with matching {userId} can read their quest information.
+     * @deny (create, update) User with mismatched {userId} cannot create or update this quest information.
+     * @deny (get, list) User with mismatched {userId} cannot read this quest information.
+     * @principle Enforces document ownership for writes. Restricts access to a user's own data tree.
+     */
+    match /users/{userId}/quests/{questId} {
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.userId == userId;
+      allow get: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isOwner(userId) && isExistingOwner(userId) && resource.data.userId == userId;
+      allow delete: if isSignedIn() && isExistingOwner(userId) && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+    }
 
-      // Player doc validation
-      match /player/{docId} {
-        allow create, update: if
-          isValidStat(getOr(request.resource.data, 'level', 1)) &&
-          isValidSmall(getOr(request.resource.data, 'xp', 0)) &&
-          isValidStat(getOr(request.resource.data, 'str', 5)) &&
-          isValidStat(getOr(request.resource.data, 'agi', 5)) &&
-          isValidStat(getOr(request.resource.data, 'sta', 5)) &&
-          isValidStat(getOr(request.resource.data, 'intl', 5)) &&
-          isValidSmall(getOr(request.resource.data, 'energyToday', 0)) &&
-          isValidSmall(getOr(request.resource.data, 'energyCap', 200)) &&
-          isValidSmall(getOr(request.resource.data, 'streakDays', 0));
-      }
+    /**
+     * @description Enforces access control for layout configuration. Only the authenticated user can read/write their own layout configuration.
+     * @path /users/{userId}/layout/layout
+     * @allow (create, update) User with matching {userId} can create or update their layout configuration.
+     * @allow (get, list) User with matching {userId} can read their layout configuration.
+     * @deny (create, update) User with mismatched {userId} cannot create or update this layout configuration.
+     * @deny (get, list) User with mismatched {userId} cannot read this layout configuration.
+     * @principle Enforces document ownership for writes. Restricts access to a user's own data tree.
+     */
+    match /users/{userId}/layout/layout {
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.userId == userId;
+      allow get: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isOwner(userId) && resource.data.userId == userId;
+      allow delete: if false;
+      allow list: if false;
+    }
 
-      // Layout doc validation
-      match /layout/{docId} {
-        allow create, update: if
-          ('order' in request.resource.data && request.resource.data.order is list) &&
-          ('hidden' in request.resource.data ? request.resource.data.hidden is list : true);
-      }
+    // --- Helper functions ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
     }
   }
-}
-
-function getOr(map, key, default) {
-  return (key in map) ? map[key] : default;
 }

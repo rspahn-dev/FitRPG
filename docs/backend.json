@@ -1,0 +1,327 @@
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user's profile information.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user profile."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User's display name."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user profile was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "displayName",
+        "email",
+        "createdAt"
+      ]
+    },
+    "Player": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Player",
+      "type": "object",
+      "description": "Represents the player's game-related information.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the player entity."
+        },
+        "level": {
+          "type": "number",
+          "description": "Player's current level."
+        },
+        "xp": {
+          "type": "number",
+          "description": "Player's current experience points."
+        },
+        "str": {
+          "type": "number",
+          "description": "Player's strength stat."
+        },
+        "agi": {
+          "type": "number",
+          "description": "Player's agility stat."
+        },
+        "sta": {
+          "type": "number",
+          "description": "Player's stamina stat."
+        },
+        "intl": {
+          "type": "number",
+          "description": "Player's intelligence stat."
+        },
+        "energyToday": {
+          "type": "number",
+          "description": "Player's energy available for the day."
+        },
+        "energyCap": {
+          "type": "number",
+          "description": "Player's maximum energy."
+        },
+        "streakDays": {
+          "type": "number",
+          "description": "Player's current daily workout streak."
+        }
+      },
+      "required": [
+        "id",
+        "level",
+        "xp",
+        "str",
+        "agi",
+        "sta",
+        "intl",
+        "energyToday",
+        "energyCap",
+        "streakDays"
+      ]
+    },
+    "Workout": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Workout",
+      "type": "object",
+      "description": "Represents a user's workout activity.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the workout entry."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Workout)"
+        },
+        "ts": {
+          "type": "string",
+          "description": "Timestamp of when the workout occurred.",
+          "format": "date-time"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of workout (e.g., strength, cardio, mobility)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name or description of the workout."
+        },
+        "minutes": {
+          "type": "number",
+          "description": "Duration of the workout in minutes (if applicable)."
+        },
+        "steps": {
+          "type": "number",
+          "description": "Number of steps taken during the workout (if applicable)."
+        },
+        "sets": {
+          "type": "number",
+          "description": "Number of sets performed (if applicable)."
+        },
+        "reps": {
+          "type": "number",
+          "description": "Number of repetitions performed per set (if applicable)."
+        },
+        "weightKg": {
+          "type": "number",
+          "description": "Weight lifted in kilograms (if applicable)."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "ts",
+        "type",
+        "name"
+      ]
+    },
+    "Quest": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Quest",
+      "type": "object",
+      "description": "Represents a quest or challenge for the user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the quest."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Quest)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the quest."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of quest (e.g., daily, weekly)."
+        },
+        "target": {
+          "type": "number",
+          "description": "Target value required to complete the quest."
+        },
+        "progress": {
+          "type": "number",
+          "description": "Current progress towards completing the quest."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "title",
+        "type",
+        "target",
+        "progress"
+      ]
+    },
+    "Layout": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Layout",
+      "type": "object",
+      "description": "Represents the user's dashboard layout configuration.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the layout configuration."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Layout)"
+        },
+        "order": {
+          "type": "array",
+          "description": "Order of widgets on the dashboard.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hidden": {
+          "type": "array",
+          "description": "List of widgets that are currently hidden.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "order",
+        "hidden"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}/profile/profile",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores user profile information. Accessible only by the user. Contains no denormalized data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/player/player",
+        "definition": {
+          "entityName": "Player",
+          "schema": {
+            "$ref": "#/backend/entities/Player"
+          },
+          "description": "Stores player-related information. Accessible only by the user. Contains no denormalized data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/workouts/{workoutId}",
+        "definition": {
+          "entityName": "Workout",
+          "schema": {
+            "$ref": "#/backend/entities/Workout"
+          },
+          "description": "Stores workout entries for a user. Accessible only by the user. Contains no denormalized data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "workoutId",
+              "description": "The unique identifier of the workout entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/quests/{questId}",
+        "definition": {
+          "entityName": "Quest",
+          "schema": {
+            "$ref": "#/backend/entities/Quest"
+          },
+          "description": "Stores quest information for a user. Accessible only by the user. Contains no denormalized data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "questId",
+              "description": "The unique identifier of the quest."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/layout/layout",
+        "definition": {
+          "entityName": "Layout",
+          "schema": {
+            "$ref": "#/backend/entities/Layout"
+          },
+          "description": "Stores dashboard layout configuration for a user. Accessible only by the user. Contains no denormalized data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to provide strong data isolation and security for user-specific data, while also enabling efficient querying and scaling. Each user has their own dedicated subtree under `/users/{userId}`, ensuring that users can only access their own data. This approach leverages path-based ownership, simplifying security rules and enhancing data privacy.\n\n*   **UserProfile and Player Data:** User profiles and player data are stored in a 1:1 relationship under `/users/{userId}/profile/profile` and `/users/{userId}/player/player`, respectively. This structure ensures easy access to user-specific data and avoids the need for complex queries.\n*   **Workouts and Quests:** Workouts and Quests are stored as collections under `/users/{userId}/workouts/{workoutId}` and `/users/{userId}/quests/{questId}`, respectively. This 1:N relationship allows users to have multiple workouts and quests associated with their profile, making it simple to manage and query them.\n*   **Layout Configuration:** The dashboard layout configuration is stored under `/users/{userId}/layout/layout`. This allows each user to customize their dashboard according to their preferences.\n\n**Authorization Independence:** The structure achieves authorization independence by isolating user data within their respective subtrees. Security rules can be written to enforce that only the authenticated user can access data under their `userId`, eliminating the need for `get()` calls to verify ownership or permissions from parent documents.  Each collection underneath /users/{uid} inherits the authentication context from the path.\n\n**QAPs (Rules are not Filters):** The design supports secure `list` operations by leveraging the path-based ownership model. Security rules ensure that users can only list documents within their own subtrees, preventing unauthorized access to other users' data.  Since all data under `/users/{uid}` is owned by that user, listing all workouts, quests, or layouts is secure and efficient. Indexes, such as the one provided for workouts, can further optimize query performance for specific use cases, like listing workouts by timestamp and type."
+  }
+}
