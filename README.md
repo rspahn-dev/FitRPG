@@ -118,9 +118,26 @@ The project is configured to use the Firebase Emulator Suite for local developme
   firebase deploy --only firestore
   ```
 
+## Mobile App Deployment
+
+To make this web application available on the Google Play Store or Apple App Store, you can use a tool like [Capacitor](https://capacitorjs.com/) to wrap it in a native application shell.
+
 ### Production Notes
 
 - **Enable Auth Providers**: In the Firebase Console, go to **Authentication** > **Sign-in method** and enable **Email/Password** and **Google**.
-- **Android Configuration**: For Google Sign-In on Android, you must add your app's SHA-1 certificate fingerprint in **Project Settings** > **Your apps** > **Android app**. After adding it, re-download the `google-services.json` file and place it in your Android app module.
+
+- **Android Configuration (for Google Sign-In)**:
+  - In the Firebase Console, go to **Project Settings** > **Your apps** > **Android app**.
+  - Add your Android app and provide the package name (e.g., `com.fitrpg.app`).
+  - You must add your app's SHA-1 certificate fingerprint. You can get this from your `build.gradle` file or by running `gradlew signingReport` in your Android project.
+  - After adding the SHA-1, re-download the `google-services.json` file and place it in your Android app's `app` module directory.
+
+- **iOS Configuration (for Google Sign-In)**:
+    - In the Firebase Console, add an iOS app to your project.
+    - Provide your iOS bundle ID (e.g., `com.fitrpg.app`).
+    - Download the `GoogleService-Info.plist` file. In Xcode, add this file to the root of your iOS app target.
+    - You will need to add a custom URL scheme to your Xcode project. Go to the "Info" tab of your target's settings and add a new URL Type. The scheme should be the `REVERSED_CLIENT_ID` found in your `GoogleService-Info.plist` file.
+
 - **Connecting App to Emulators**: During development, your application will automatically connect to the emulators if they are running.
+
 - **Production Scripts**: When running seed scripts against a production environment, ensure you have properly configured service account credentials and remove or guard any emulator-specific configurations.
