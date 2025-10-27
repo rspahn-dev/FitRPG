@@ -19,7 +19,7 @@ import {
 import { SidebarNav } from '@/components/layout/sidebar-nav';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Header } from './header';
-import { Dumbbell, Settings } from 'lucide-react';
+import { Dumbbell, Settings, Cat } from 'lucide-react';
 import Link from 'next/link';
 
 const navItems = [
@@ -30,7 +30,6 @@ const navItems = [
   { href: '/ai-trainer', label: 'AI Trainer', icon: 'Bot' },
   { href: '/challenges', label: 'Challenges', icon: 'Trophy' },
   { href: '/social', label: 'Social', icon: 'Users' },
-  { href: '/creature', label: 'Creature', icon: 'Cat' },
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
@@ -52,6 +51,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
         <SidebarContent>
           <SidebarSeparator />
            <SidebarMenu>
+            <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === '/creature'}>
+                    <Link href="/creature">
+                        <Cat />
+                        <span>Creature</span>
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <Link href="#">
