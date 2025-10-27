@@ -1,5 +1,5 @@
 
-// Mock data for FitRPG UI
+// Mock data for FitRPG
 
 export const userProfile = {
   displayName: 'Alex',
@@ -13,7 +13,10 @@ export const userProfile = {
         { name: 'Quick Attack', description: 'A speedy physical attack.' },
         { name: 'Thunder Shock', description: 'An electric shock that may paralyze the foe.' },
     ]
-  }
+  },
+  bag: [
+    { id: 'loot1', name: 'Health Potion', description: 'Restores 20 HP.', icon: 'Heart' }
+  ]
 };
 
 export const userStats = {
@@ -139,6 +142,13 @@ export const communityChallenges = [
   },
 ];
 
+export const lootTable = {
+    'loot1': { id: 'loot1', name: 'Health Potion', description: 'Restores 20 HP.', icon: 'Heart' },
+    'loot2': { id: 'loot2', name: 'Strength Elixir', description: 'Temporarily boosts STR by 2.', icon: 'Dumbbell' },
+    'loot3': { id: 'loot3', name: 'Agility Draught', description: 'Temporarily boosts AGI by 2.', icon: 'Wind' },
+    'loot4': { id: 'loot4', name: 'XP Scroll', description: 'Grants 100 XP.', icon: 'Star' }
+}
+
 export const monsters = [
     {
         id: 'm1',
@@ -146,6 +156,7 @@ export const monsters = [
         species: 'Cave Goblin',
         level: 3,
         image: 'https://picsum.photos/seed/monster1/128/128',
+        loot: lootTable.loot2,
     },
     {
         id: 'm2',
@@ -153,6 +164,7 @@ export const monsters = [
         species: 'Gelatinous Cube',
         level: 1,
         image: 'https://picsum.photos/seed/monster2/128/128',
+        loot: lootTable.loot1,
     },
     {
         id: 'm3',
@@ -160,6 +172,7 @@ export const monsters = [
         species: 'Young Dragon',
         level: 7,
         image: 'https://picsum.photos/seed/monster3/128/128',
+        loot: lootTable.loot4,
     },
     {
         id: 'rival',
@@ -167,6 +180,7 @@ export const monsters = [
         species: 'Cyborg Athlete',
         level: userStats.level, // Level scales with the user
         image: 'https://picsum.photos/seed/rival/128/128',
+        loot: lootTable.loot4,
     }
 ]
 

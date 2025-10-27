@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Shield, Swords, Zap, Heart, Wind } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 type AttackAnimation = {
   target: 'player' | 'monster';
@@ -43,6 +44,7 @@ const skillIcons: { [key: string]: React.ElementType } = {
 export default function BattleArenaPage() {
   const params = useParams();
   const router = useRouter();
+  const { toast } = useToast();
   const monsterId = params.monsterId as string;
   const monster = getMonster(monsterId);
 
@@ -80,8 +82,23 @@ export default function BattleArenaPage() {
     }, 1000);
   };
 
+  const handlePlayerVictory = (log: string[]) => {
+    log.push(`You defeated ${monster.name}!`);
+    if (monster.loot) {
+      userProfile.bag.push(monster.loot);
+      log.push(`You found a ${monster.loot.name}!`);
+      toast({
+        title: "Loot Acquired!",
+        description: `You found a ${monster.loot.name} from ${monster.name}.`,
+      })
+    }
+    setBattleLog(prev => [...prev, ...log]);
+    setIsBattleOver(true);
+    setWinner('player');
+  }
+
   const handleSkillClick = (skillName: string) => {
-    if (!isPlayerTurn || isBattleOver) return;
+    if (!isPlayerTurn || isBattleOver || !monster) return;
 
     setIsPlayerTurn(false);
     const newLog: string[] = [];
@@ -100,10 +117,7 @@ export default function BattleArenaPage() {
 
     if (newMonsterHealth <= 0) {
       setTimeout(() => {
-        newLog.push(`You defeated ${monster.name}!`);
-        setBattleLog(prev => [...prev, ...newLog]);
-        setIsBattleOver(true);
-        setWinner('player');
+        handlePlayerVictory(newLog);
       }, 500);
       return;
     }
@@ -255,7 +269,8 @@ export default function BattleArenaPage() {
               {winner === 'player' ? 'You Won!' : 'You Were Defeated!'}
             </AlertTitle>
             <AlertDescription>
-              {winner === 'player' ? `You have defeated ${monster.name} and found some loot!` : `${monster.name} was too strong.`}
+              {winner === 'player' ? `You have defeated ${monster.name}!` : `${monster.name} was too strong.`}
+              {winner === 'player' && monster.loot && ` You found a ${monster.loot.name}!`}
             </AlertDescription>
           </Alert>
            <Button onClick={() => router.push('/battle')}>Back to Battles</Button>
