@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { Dumbbell, HeartPulse, StretchVertical } from 'lucide-react';
+import { Dumbbell, HeartPulse, StretchVertical, Star } from 'lucide-react';
 
 const workoutFormSchema = z.object({
   type: z.enum(['strength', 'cardio', 'mobility'], {
@@ -38,6 +38,20 @@ const workoutFormSchema = z.object({
 
 type WorkoutFormValues = z.infer<typeof workoutFormSchema>;
 
+// Mock function to calculate XP
+const calculateXp = (data: WorkoutFormValues) => {
+  let xp = 0;
+  if (data.type === 'strength') {
+    xp += (data.sets || 0) * (data.reps || 0) * (data.weightKg || 1) * 0.5;
+  } else if (data.type === 'cardio') {
+    xp += (data.minutes || 0) * 2;
+    xp += (data.steps || 0) * 0.05;
+  } else if (data.type === 'mobility') {
+    xp += (data.minutes || 0) * 1.5;
+  }
+  return Math.round(xp);
+}
+
 export function LogWorkoutForm() {
   const [workoutType, setWorkoutType] = useState<string | undefined>();
   const { toast } = useToast();
@@ -50,10 +64,19 @@ export function LogWorkoutForm() {
   });
 
   const onSubmit: SubmitHandler<WorkoutFormValues> = (data) => {
-    console.log('Workout logged:', data);
+    const xpGained = calculateXp(data);
+    console.log('Workout logged:', data, 'XP Gained:', xpGained);
     toast({
       title: 'Workout Logged!',
-      description: `${data.name} has been added to your history.`,
+      description: (
+        <div className="flex flex-col gap-2">
+          <span>{data.name} has been added to your history.</span>
+          <div className="flex items-center font-bold text-yellow-500">
+            <Star className="mr-1 h-4 w-4 fill-yellow-400" />
+            <span>+ {xpGained} XP</span>
+          </div>
+        </div>
+      )
     });
     form.reset();
     setWorkoutType(undefined);
