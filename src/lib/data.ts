@@ -1,4 +1,5 @@
 
+
 // Mock data for FitRPG
 
 // Base stats that will scale with level
@@ -24,11 +25,14 @@ export const userStats = {
   streakDays: 5,
   workoutsThisWeek: 4,
   activeMinutesThisWeek: 180,
+  // NOTE: In a real app, this would be derived from the workout history.
+  // We'll use this to simulate the "one rest day per week" rule.
+  restDaysLoggedThisWeek: 0, 
 };
 
 export const userProfile = {
   displayName: 'Alex',
-  fitnessGoals: 'Build muscle and improve cardiovascular health.',
+  fitnessGoals: 'I want to build muscle and improve my cardiovascular health.',
   fitnessLevel: 'intermediate',
   creature: {
     name: 'Sparky',
@@ -93,20 +97,54 @@ export const recentWorkouts = [
 
 export const workoutTemplates = [
     {
-        id: 'template1',
-        name: 'Upper Body Focus',
+        id: 'template_chest_tri',
+        name: 'Chest & Triceps',
         exercises: [
-            { type: 'strength', name: 'Bench Press', sets: [{ reps: 8, weightKg: 90 }, { reps: 8, weightKg: 90 }] },
-            { type: 'strength', name: 'Overhead Press', sets: [{ reps: 10, weightKg: 50 }, { reps: 10, weightKg: 50 }] },
-            { type: 'strength', name: 'Pull Ups', sets: [{ reps: 8, weightKg: 0 }, { reps: 8, weightKg: 0 }] },
+            { type: 'strength', name: 'Bench Press', sets: [{ reps: 8, weightKg: 0 }, { reps: 8, weightKg: 0 }, { reps: 8, weightKg: 0 }] },
+            { type: 'strength', name: 'Incline Dumbbell Press', sets: [{ reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }] },
+            { type: 'strength', name: 'Tricep Dips', sets: [{ reps: 15, weightKg: 0 }, { reps: 15, weightKg: 0 }, { reps: 15, weightKg: 0 }] },
+            { type: 'strength', name: 'Tricep Pushdown', sets: [{ reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }] },
         ]
     },
     {
-        id: 'template2',
-        name: 'Quick Cardio',
+        id: 'template_back_bi',
+        name: 'Back & Biceps',
         exercises: [
-            { type: 'cardio', name: 'Treadmill Run', minutes: 20 },
-            { type: 'cardio', name: 'Cycling', minutes: 15 },
+            { type: 'strength', name: 'Pull Ups', sets: [{ reps: 5, weightKg: 0 }, { reps: 5, weightKg: 0 }, { reps: 5, weightKg: 0 }] },
+            { type: 'strength', name: 'Bent Over Rows', sets: [{ reps: 8, weightKg: 0 }, { reps: 8, weightKg: 0 }, { reps: 8, weightKg: 0 }] },
+            { type: 'strength', name: 'Bicep Curls', sets: [{ reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }] },
+            { type: 'strength', name: 'Hammer Curls', sets: [{ reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }] },
+        ]
+    },
+    {
+        id: 'template_shoulders_core',
+        name: 'Shoulders & Core',
+        exercises: [
+            { type: 'strength', name: 'Overhead Press', sets: [{ reps: 8, weightKg: 0 }, { reps: 8, weightKg: 0 }, { reps: 8, weightKg: 0 }] },
+            { type: 'strength', name: 'Lateral Raises', sets: [{ reps: 15, weightKg: 0 }, { reps: 15, weightKg: 0 }, { reps: 15, weightKg: 0 }] },
+            { type: 'strength', name: 'Plank', sets: [{ reps: 1, weightKg: 60 }, { reps: 1, weightKg: 60 }] }, // Using reps for seconds
+            { type: 'strength', name: 'Leg Raises', sets: [{ reps: 20, weightKg: 0 }, { reps: 20, weightKg: 0 }, { reps: 20, weightKg: 0 }] },
+        ]
+    },
+    {
+        id: 'template_legs',
+        name: 'Leg Day',
+        exercises: [
+            { type: 'strength', name: 'Squats', sets: [{ reps: 10, weightKg: 0 }, { reps: 10, weightKg: 0 }, { reps: 10, weightKg: 0 }] },
+            { type: 'strength', name: 'Deadlifts', sets: [{ reps: 5, weightKg: 0 }, { reps: 5, weightKg: 0 }, { reps: 5, weightKg: 0 }] },
+            { type: 'strength', name: 'Leg Press', sets: [{ reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }, { reps: 12, weightKg: 0 }] },
+            { type: 'strength', name: 'Calf Raises', sets: [{ reps: 20, weightKg: 0 }, { reps: 20, weightKg: 0 }, { reps: 20, weightKg: 0 }] },
+        ]
+    },
+    {
+        id: 'template_full_body',
+        name: 'Full Body Circuit',
+        exercises: [
+            { type: 'cardio', name: 'Jumping Jacks', minutes: 1 },
+            { type: 'strength', name: 'Push Ups', sets: [{ reps: 15, weightKg: 0 }] },
+            { type: 'strength', name: 'Air Squats', sets: [{ reps: 20, weightKg: 0 }] },
+            { type: 'cardio', name: 'Burpees', minutes: 1 },
+            { type: 'cardio', name: 'High Knees', minutes: 1 },
         ]
     }
 ]
@@ -224,3 +262,5 @@ export const friends = [
     isOnline: false,
   },
 ];
+
+    

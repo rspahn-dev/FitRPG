@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useForm, useFieldArray, type SubmitHandler } from 'react-hook-form';
@@ -26,8 +27,9 @@ import { useToast } from '@/hooks/use-toast';
 import { Dumbbell, HeartPulse, Star, Trash2, PlusCircle, Save, Bed } from 'lucide-react';
 import { Separator } from './ui/separator';
 import { Card, CardContent } from './ui/card';
-import { workoutTemplates } from '@/lib/data';
+import { workoutTemplates, userStats } from '@/lib/data';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 const strengthSetSchema = z.object({
   reps: z.coerce.number().int().positive(),
@@ -64,6 +66,7 @@ const calculateXp = (data: ExerciseFormValues) => {
 
 export function LogWorkoutForm() {
   const { toast } = useToast();
+  const [restDaysLogged, setRestDaysLogged] = useState(userStats.restDaysLoggedThisWeek);
 
   const form = useForm<WorkoutFormValues>({
     resolver: zodResolver(workoutFormSchema),
@@ -128,21 +131,32 @@ export function LogWorkoutForm() {
   }
 
   const handleLogRestDay = () => {
-    const xpGained = 25; // Small reward for consistency
-    toast({
-        title: "Rest Day Logged!",
-        description: (
-            <div className="flex flex-col gap-2">
-                <span>Rest is essential for growth. Good job!</span>
-                <div className="flex items-center font-bold text-yellow-500">
-                    <Star className="mr-1 h-4 w-4 fill-yellow-400" />
-                    <span>+ {xpGained} XP</span>
+    if (restDaysLogged > 0) {
+        toast({
+            variant: "destructive",
+            title: "Streak Broken!",
+            description: "You have already logged a rest day this week. Logging another one has broken your streak.",
+        });
+        // In a real app, you'd update the userStats.streakDays to 0
+        console.log("Streak broken. Additional rest day logged.");
+    } else {
+        const xpGained = 25; // Small reward for consistency
+        setRestDaysLogged(restDaysLogged + 1);
+        toast({
+            title: "Rest Day Logged!",
+            description: (
+                <div className="flex flex-col gap-2">
+                    <span>Rest is essential for growth. Good job!</span>
+                    <div className="flex items-center font-bold text-yellow-500">
+                        <Star className="mr-1 h-4 w-4 fill-yellow-400" />
+                        <span>+ {xpGained} XP</span>
+                    </div>
                 </div>
-            </div>
-        )
-    });
-    // In a real app, you'd also save this to the user's history
-    console.log("Rest day logged. XP Gained:", xpGained);
+            )
+        });
+        // In a real app, you'd also save this to the user's history
+        console.log("Rest day logged. XP Gained:", xpGained);
+    }
   }
 
   return (
@@ -290,3 +304,4 @@ function ExerciseField({ form, index, remove }: { form: any, index: number, remo
   );
 }
 
+    
