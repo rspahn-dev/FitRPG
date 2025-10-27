@@ -150,7 +150,7 @@ export default function BattleArenaPage() {
               {winner === 'player' ? 'You Won!' : 'You Were Defeated!'}
             </AlertTitle>
             <AlertDescription>
-              {winner === 'player' ? `You have defeated ${monster.name} and gained XP!` : `${monster.name} was too strong.`}
+              {winner === 'player' ? `You have defeated ${monster.name} and found some loot!` : `${monster.name} was too strong.`}
             </AlertDescription>
           </Alert>
            <Button onClick={() => router.push('/battle')}>Back to Battles</Button>
@@ -190,3 +190,4 @@ export default function BattleArenaPage() {
       </Card>
     </div>
   );
+}
