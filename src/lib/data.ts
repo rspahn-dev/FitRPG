@@ -17,6 +17,13 @@ const calculateLevelStats = (level: number) => {
     }
 }
 
+export type LootItem = {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+};
+
 export const userStats = {
   level: 5,
   xp: 450,
@@ -49,7 +56,7 @@ export const userProfile = {
   },
   bag: [
     { id: 'loot1', name: 'Health Potion', description: 'Restores 20 HP.', icon: 'Heart' }
-  ],
+  ] as LootItem[],
   settings: {
     units: 'kg',
     theme: 'light',
@@ -230,7 +237,7 @@ export const communityChallenges = [
   },
 ];
 
-export const lootTable = {
+export const lootTable: { [key: string]: LootItem } = {
     'loot1': { id: 'loot1', name: 'Health Potion', description: 'Restores 20 HP.', icon: 'Heart' },
     'loot2': { id: 'loot2', name: 'Strength Elixir', description: 'Temporarily boosts STR by 2.', icon: 'Dumbbell' },
     'loot3': { id: 'loot3', name: 'Agility Draught', description: 'Temporarily boosts AGI by 2.', icon: 'Wind' },

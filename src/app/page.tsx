@@ -1,6 +1,7 @@
 
 'use client';
 
+import React, { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -23,9 +24,28 @@ import { userProfile, userStats } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
+import type { LootItem } from '@/lib/data';
 
 export default function DashboardPage() {
+  const { toast } = useToast();
+  const [bag, setBag] = useState(userProfile.bag);
   const xpPercentage = (userStats.xp / userStats.xpToNext) * 100;
+
+  const handleUseItem = (itemToUse: LootItem, index: number) => {
+    // In a real app, apply item effect here.
+    console.log(`Used ${itemToUse.name}`);
+
+    // Remove item from bag
+    const newBag = bag.filter((_, i) => i !== index);
+    setBag(newBag);
+
+    // Show toast
+    toast({
+      title: 'Item Used!',
+      description: `You used ${itemToUse.name}.`,
+    });
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -123,9 +143,9 @@ export default function DashboardPage() {
                 <CardDescription>Items collected from battles.</CardDescription>
             </CardHeader>
             <CardContent>
-                {userProfile.bag.length > 0 ? (
+                {bag.length > 0 ? (
                     <div className="space-y-4">
-                        {userProfile.bag.map((item, index) => (
+                        {bag.map((item, index) => (
                             <div key={index} className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <Zap className="h-5 w-5 text-yellow-500" />
@@ -134,7 +154,7 @@ export default function DashboardPage() {
                                         <p className="text-xs text-muted-foreground">{item.description}</p>
                                     </div>
                                 </div>
-                                <Button size="sm" variant="outline">Use</Button>
+                                <Button size="sm" variant="outline" onClick={() => handleUseItem(item, index)}>Use</Button>
                             </div>
                         ))}
                     </div>
