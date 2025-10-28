@@ -122,22 +122,61 @@ The project is configured to use the Firebase Emulator Suite for local developme
 
 To make this web application available on the Google Play Store or Apple App Store, you can use a tool like [Capacitor](https://capacitorjs.com/) to wrap it in a native application shell.
 
-### Production Notes
+### 1. Capacitor Setup
+
+First, add Capacitor and the native platforms to your project. Run these commands in your terminal:
+
+```bash
+# Install Capacitor dependencies
+npm install @capacitor/core @capacitor/cli @capacitor/android
+
+# Initialize Capacitor
+npx cap init FitRPG com.fitrpg.app --web-dir="out"
+
+# Add the Android platform
+npx cap add android
+```
+
+### 2. Build and Sync
+
+Before building in Android Studio, you need to create a production build of your web app and sync it with Capacitor.
+
+```bash
+# Create a static export of your Next.js app
+npm run build
+
+# Sync the web build with your Android project
+npx cap sync android
+```
+
+### 3. Production Configuration for Firebase
 
 - **Enable Auth Providers**: In the Firebase Console, go to **Authentication** > **Sign-in method** and enable **Email/Password** and **Google**.
 
 - **Android Configuration (for Google Sign-In)**:
   - In the Firebase Console, go to **Project Settings** > **Your apps** > **Android app**.
-  - Add your Android app and provide the package name (e.g., `com.fitrpg.app`).
-  - You must add your app's SHA-1 certificate fingerprint. You can get this from your `build.gradle` file or by running `gradlew signingReport` in your Android project.
-  - After adding the SHA-1, re-download the `google-services.json` file and place it in your Android app's `app` module directory.
+  - Add your Android app and provide the package name (`com.fitrpg.app`).
+  - You must add your app's SHA-1 certificate fingerprint. You can get this from the "Signing" report in Android Studio or by running `./gradlew signingReport` in the `android` directory.
+  - After adding the SHA-1, re-download the `google-services.json` file and place it in your Android app's `android/app` module directory.
 
 - **iOS Configuration (for Google Sign-In)**:
     - In the Firebase Console, add an iOS app to your project.
-    - Provide your iOS bundle ID (e.g., `com.fitrpg.app`).
+    - Provide your iOS bundle ID (`com.fitrpg.app`).
     - Download the `GoogleService-Info.plist` file. In Xcode, add this file to the root of your iOS app target.
     - You will need to add a custom URL scheme to your Xcode project. Go to the "Info" tab of your target's settings and add a new URL Type. The scheme should be the `REVERSED_CLIENT_ID` found in your `GoogleService-Info.plist` file.
 
-- **Connecting App to Emulators**: During development, your application will automatically connect to the emulators if they are running.
+### 4. Signing Your Android App for Release
 
-- **Production Scripts**: When running seed scripts against a production environment, ensure you have properly configured service account credentials and remove or guard any emulator-specific configurations.
+To publish to the Google Play Store, you must sign your app with a release key. This is done in Android Studio.
+
+1.  **Open Android Studio**: Open the `android` folder of your project in Android Studio.
+2.  **Generate Signed Bundle**: From the menu bar, click **Build > Generate Signed Bundle / APK...**.
+3.  **Select App Bundle**: Select **Android App Bundle** and click **Next**.
+4.  **Create Keystore**:
+    *   Below the "Key store path" field, click **Create new...**.
+    *   Choose a location to save your keystore file.
+    *   Create a strong password for the keystore and for the key itself.
+    *   Fill in the certificate information (your name, organization, etc.).
+    *   **IMPORTANT**: Back up your keystore file and save your passwords in a secure place. If you lose your key, you will not be able to publish updates to your app.
+5.  **Build Release**: After creating the keystore, you'll be returned to the previous screen. Ensure your new key is selected, choose `release` as the build variant, and click **Finish**.
+6.  **Locate the AAB**: Android Studio will build your signed app. Once finished, a notification will appear with a link to locate the generated `.aab` file. This is the file you will upload to the Google Play Console.
