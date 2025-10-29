@@ -26,11 +26,24 @@ import { Progress } from '@/components/ui/progress';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import type { LootItem } from '@/lib/data';
+import { useUser } from '@/firebase/provider';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function DashboardPage() {
   const { toast } = useToast();
   const [bag, setBag] = useState(userProfile.bag);
   const xpPercentage = (userStats.xp / userStats.xpToNext) * 100;
+  const { user, isUserLoading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.push('/login');
+    }
+    // A more robust app would check if the user has a creature profile
+    // and redirect to /welcome if they don't.
+  }, [user, isUserLoading, router]);
 
   const handleUseItem = (itemToUse: LootItem, index: number) => {
     // In a real app, apply item effect here.
@@ -46,6 +59,14 @@ export default function DashboardPage() {
       description: `You used ${itemToUse.name}.`,
     });
   };
+
+  if (isUserLoading || !user) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-8">

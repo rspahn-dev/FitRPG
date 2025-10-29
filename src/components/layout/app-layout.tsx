@@ -21,6 +21,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Header } from './header';
 import { Dumbbell, Settings, Cat } from 'lucide-react';
 import Link from 'next/link';
+import { useUser } from '@/firebase';
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: 'LayoutDashboard' },
@@ -34,10 +35,11 @@ const navItems = [
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const { user } = useUser();
 
-  // Hide layout for welcome page
-  if (pathname === '/welcome') {
-    return <main className="flex-1 overflow-auto p-4 md:p-6">{children}</main>;
+  // The login and welcome pages have their own layout
+  if (pathname === '/login' || pathname === '/welcome') {
+    return <>{children}</>;
   }
 
   return (
@@ -75,12 +77,12 @@ export function AppLayout({ children }: { children: ReactNode }) {
           <SidebarSeparator />
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="https://picsum.photos/seed/user/40/40" alt="User" />
-              <AvatarFallback>A</AvatarFallback>
+              <AvatarImage src={user?.photoURL || `https://picsum.photos/seed/${user?.uid}/40/40`} alt="User" />
+              <AvatarFallback>{user?.email?.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="text-sm font-semibold">Alex</span>
-              <span className="text-xs text-muted-foreground">alex@example.com</span>
+              <span className="text-sm font-semibold">{user?.displayName || 'User'}</span>
+              <span className="text-xs text-muted-foreground">{user?.email}</span>
             </div>
           </div>
         </SidebarFooter>

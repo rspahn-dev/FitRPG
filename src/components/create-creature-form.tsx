@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -44,14 +45,14 @@ export function CreateCreatureForm() {
   });
 
   const handleCreateCreature = (data: CreatureFormValues) => {
-    // In a real app, you would save this data to your backend.
-    // For now, we'll just show a toast and redirect to the dashboard.
+    // In a real app, you would save this data to your backend, associated with the logged-in user.
+    // e.g., using a Firestore document for the user's profile.
     console.log('Creature Created:', data);
     toast({
       title: 'Creature Created!',
       description: `Welcome, ${data.creatureName}! Let the journey begin.`,
     });
-    router.push('/dashboard');
+    router.push('/');
   };
 
   const handleAutoGenerate = async () => {
