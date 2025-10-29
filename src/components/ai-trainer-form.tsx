@@ -1,7 +1,7 @@
+
 'use client';
 
-import { useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { generateWorkoutPlanAction } from '@/app/actions';
+import type { GeneratePersonalizedWorkoutPlanOutput } from '@/ai/flows/generate-personalized-workout-plan';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Loader2 } from 'lucide-react';
 
@@ -42,29 +42,10 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const initialState = {
-  workoutPlan: '',
-  error: '',
-};
-
-function SubmitButton() {
-    const { pending } = useFormStatus();
-    return (
-        <Button type="submit" disabled={pending}>
-            {pending && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Generate Plan
-        </Button>
-    )
-}
-
-
 export default function AiTrainerForm() {
-  const [state, formAction] = useActionState(
-    generateWorkoutPlanAction,
-    initialState
-  );
+  const [workoutPlan, setWorkoutPlan] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -76,13 +57,39 @@ export default function AiTrainerForm() {
     },
   });
 
-  const { formState, formState: { isSubmitting } } = form;
+  const onSubmit = async (data: FormValues) => {
+    setIsSubmitting(true);
+    setError('');
+    setWorkoutPlan('');
+
+    try {
+      const response = await fetch('/api/genkit/generatePersonalizedWorkoutPlanFlow', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result: GeneratePersonalizedWorkoutPlanOutput = await response.json();
+      setWorkoutPlan(result.workoutPlan);
+    } catch (err) {
+      console.error('Error generating workout plan:', err);
+      setError('Failed to generate workout plan. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="space-y-8">
       <Form {...form}>
         <form
-          action={formAction}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >
           <FormField
@@ -172,7 +179,12 @@ export default function AiTrainerForm() {
             )}
           />
 
-          <SubmitButton />
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Generate Plan
+          </Button>
         </form>
       </Form>
 
@@ -191,25 +203,25 @@ export default function AiTrainerForm() {
         </Card>
       )}
 
-      {state?.error && (
+      {error && (
         <Card className="border-destructive">
           <CardHeader>
             <CardTitle className="text-destructive">An Error Occurred</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>{state.error}</p>
+            <p>{error}</p>
           </CardContent>
         </Card>
       )}
 
-      {state?.workoutPlan && !isSubmitting && (
+      {workoutPlan && !isSubmitting && (
         <Card className="bg-primary/5">
           <CardHeader>
             <CardTitle>Your Personalized Workout Plan</CardTitle>
           </CardHeader>
           <CardContent>
             <article className="prose prose-sm max-w-none dark:prose-invert">
-              <ReactMarkdown>{state.workoutPlan}</ReactMarkdown>
+              <ReactMarkdown>{workoutPlan}</ReactMarkdown>
             </article>
           </CardContent>
         </Card>

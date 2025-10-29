@@ -1,4 +1,3 @@
-'use server';
 /**
  * @fileOverview This file defines a Genkit flow for generating personalized workout plans based on user input.
  *
@@ -56,7 +55,7 @@ Format the response as a Markdown string. Use headings for sections, bullet poin
 `,
 });
 
-const generatePersonalizedWorkoutPlanFlow = ai.defineFlow(
+export const generatePersonalizedWorkoutPlanFlow = ai.defineFlow(
   {
     name: 'generatePersonalizedWorkoutPlanFlow',
     inputSchema: GeneratePersonalizedWorkoutPlanInputSchema,

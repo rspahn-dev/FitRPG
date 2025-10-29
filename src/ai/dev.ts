@@ -1,5 +1,10 @@
 import { config } from 'dotenv';
 config();
 
-import '@/ai/flows/generate-personalized-workout-plan.ts';
-import '@/ai/flows/generate-creature-suggestion.ts';
+import { generatePersonalizedWorkoutPlanFlow } from '@/ai/flows/generate-personalized-workout-plan';
+import { generateCreatureSuggestionFlow } from '@/ai/flows/generate-creature-suggestion';
+
+export default {
+  'generate-personalized-workout-plan': generatePersonalizedWorkoutPlanFlow,
+  'generate-creature-suggestion': generateCreatureSuggestionFlow,
+};

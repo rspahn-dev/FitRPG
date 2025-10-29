@@ -1,4 +1,3 @@
-'use server';
 /**
  * @fileOverview This file defines a Genkit flow for generating a creature suggestion.
  *
@@ -31,7 +30,7 @@ const prompt = ai.definePrompt({
 });
 
 
-const generateCreatureSuggestionFlow = ai.defineFlow(
+export const generateCreatureSuggestionFlow = ai.defineFlow(
   {
     name: 'generateCreatureSuggestionFlow',
     outputSchema: GenerateCreatureSuggestionOutputSchema,

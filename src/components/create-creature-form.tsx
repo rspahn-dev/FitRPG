@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { generateCreatureSuggestionAction } from '@/app/actions';
+import type { GenerateCreatureSuggestionOutput } from '@/ai/flows/generate-creature-suggestion';
 import { Wand2, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -58,7 +58,19 @@ export function CreateCreatureForm() {
   const handleAutoGenerate = async () => {
     setIsGenerating(true);
     try {
-      const suggestion = await generateCreatureSuggestionAction();
+      const response = await fetch('/api/genkit/generateCreatureSuggestionFlow', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const suggestion: GenerateCreatureSuggestionOutput = await response.json();
+      
       if (suggestion) {
         form.reset({
           creatureName: suggestion.creatureName,
