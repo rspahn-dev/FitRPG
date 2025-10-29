@@ -1,5 +1,6 @@
 
 
+
 // Mock data for FitRPG
 
 // Base stats that will scale with level
@@ -22,6 +23,16 @@ export type LootItem = {
     name: string;
     description: string;
     icon: string;
+};
+
+export type Monster = {
+    id: string;
+    name: string;
+    species: string;
+    level: number;
+    image: string;
+    loot?: LootItem;
+    unlockLevel: number;
 };
 
 export const userStats = {
@@ -246,7 +257,7 @@ export const lootTable: { [key: string]: LootItem } = {
     'loot6': { id: 'loot6', name: 'Phoenix Down', description: 'Revives a fainted creature.', icon: 'Feather' },
 };
 
-export const monsters = [
+export const monsters: Monster[] = [
     {
         id: 'm2',
         name: 'Slime',
